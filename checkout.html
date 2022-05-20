@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Whites Castle</title>
+  </head>
+  <body onload="myScript()" style="padding-top: 5em">
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-5 fw-bold fs-3" href="#">Whites Castle</a>
+        <div class="d-flex">
+          <a
+            href="cart.html"
+            class="btn btn-outline btn-light d-block d-md-none"
+            ><i class="fa-shopping-cart fa"></i
+            ><span class="badge rounded-pill bg-success d-none cart-count">
+              3
+              <span class="visually-hidden">number of cart</span>
+            </span></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mb-2 mb-lg-0 ms-auto fs-5 me-5">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link active dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+              >
+                <i class="fa fa-shopping-cart"></i>
+                <span class="badge rounded-pill bg-success cart-count">
+                  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                  <span class="visually-hidden">number of cart</span>
+                </span>
+              </a>
+              <ul
+                class="dropdown-menu bg-dark dropdown-menu-dark"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                <li class="">
+                  <a class="dropdown-item text-center p-2 px-5" href="cart.html"
+                    >View Cart</a
+                  >
+                </li>
+                <li class="d-flex">
+                  <a
+                    class="text-decoration-none w-100 btn-success text-center p-2 px-5"
+                    href="checkout.html"
+                    >Checkout</a
+                  ><a
+                    class="text-decoration-none w-100 btn-danger text-center p-2 px-5 cursor-pointer"
+                    href="#"
+                    onclick="clearCart()"
+                    >Clear</a
+                  >
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                  <div class="w-100 px-3 text-end">
+                    Total:
+                    <span class="fs-5 fw-bold total-cart-price">0</span> PKR
+                  </div>
+                </li>
+                <li class="p-2">
+                  <ol class="list-group" id="cart-items">
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-start"
+                    >
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Cras justo odio
+                      </div>
+                      <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                    <li
+                      class="list-group-item d-flex justify-content-between align-items-start"
+                    >
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Cras justo odio
+                      </div>
+                      <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                  </ol>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="branches.html">Branches</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="catering.html">Catering</a>
+            </li>
+          </ul>
+          <span class="navbar-text"> </span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container main">
+      <div class="row row-cols-md-2 row-cols-1">
+        <span class="mt-auto text-lg col"
+          >Total: <b class="text-lg total-cart-price">0</b>
+          <b class="text-md">PKR</b></span
+        >
+        <div class="col mt-2 d-flex">
+          <a href="checkout.html" class="ms-auto btn btn-success">Checkout</a>
+          <a href="menu.html" class="btn">Menu</a>
+          <a href="#" class="btn btn-danger" onclick="clearCart()"
+            >Clear Cart</a
+          >
+        </div>
+      </div>
+      <hr />
+
+      <form class="row" onsubmit="placeOrder(event, this)">
+        <div class="col-lg-8 col-md-4">
+          <div class="bg-white shadow p-4 m-1">
+            <h3 class="topborder">
+              <span class="bg-white">Your Address</span>
+            </h3>
+            <div class="row row-cols-lg-2 mt-3 gg-1">
+              <div class="form-group">
+                <label class="form-label" for="Customer-Name">Name</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  name="Customer-Name"
+                  id="Customer-Name"
+                  placeholder="John Doe"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="Customer-Phone">Phone</label>
+                <input
+                  class="form-control"
+                  type="phone"
+                  name="Customer-Phone"
+                  id="Customer-Phone"
+                  placeholder="0300-0000-000"
+                  required
+                />
+              </div>
+            </div>
+            <div class="row row-cols-lg-2 mt-3 gg-1">
+              <div class="form-group">
+                <label class="form-label" for="Customer-Home-Address"
+                  >Home/Shop Address</label
+                >
+                <input
+                  class="form-control"
+                  type="text"
+                  name="Customer-Home-Address"
+                  id="Customer-Home-Address"
+                  placeholder="House/Shop Number/Name"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="Customer-Street-Address"
+                  >Street Address</label
+                >
+                <input
+                  class="form-control"
+                  type="phone"
+                  name="Customer-Street-Address"
+                  id="Customer-Street-Address"
+                  placeholder="Street Number/Name"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group mt-2">
+              <label class="form-label" for="Customer-Area">Main Area</label>
+              <input
+                class="form-control"
+                type="text"
+                list="areas"
+                name="Customer-Area"
+                id="Customer-Area"
+                
+              />
+              <datalist id="areas">
+                <option value="Abdullahpur">Abdullahpur</option>
+                <option value="Al- Fateh garden">Al- Fateh garden</option>
+                <option value="Al Masoom Town">Al Masoom Town</option>
+                <option value="Al-Hamra Town">Al-Hamra Town</option>
+                <option value="AL-NAJAF COLONY">AL-NAJAF COLONY</option>
+                <option value="AMANAT VILLAS">AMANAT VILLAS</option>
+                <option value="Amir Town">Amir Town</option>
+                <option value="ASHRAFI VILLAS">ASHRAFI VILLAS</option>
+                <option value="AWAMI COLONY">AWAMI COLONY</option>
+                <option value="BATALA COLONY">BATALA COLONY</option>
+                <option value="CANAL ROAD">CANAL ROAD</option>
+                <option value="CHANDANI STREET">CHANDANI STREET</option>
+                <option value="CHENAB CLUB">CHENAB CLUB</option>
+                <option value="CIRCULAR ROAD">CIRCULAR ROAD</option>
+                <option value="Civil Lines">Civil Lines</option>
+                <option value="D GROUND">D GROUND</option>
+                <option value="DHOBI GHAT">DHOBI GHAT</option>
+                <option value="D-TYPE COLONY">D-TYPE COLONY</option>
+                <option value="EID GAH ROAD">EID GAH ROAD</option>
+                <option value="FACTORY AREA">FACTORY AREA</option>
+                <option value="FAREED TOWN">FAREED TOWN</option>
+                <option value="FATEH ABAAD">FATEH ABAAD</option>
+                <option value="FESCO COLONY">FESCO COLONY</option>
+                <option value="Garden Colony">Garden Colony</option>
+                <option value="GOR">GOR</option>
+                <option value="GPO (GENERAL POST OFFICE)">
+                  GPO (GENERAL POST OFFICE)
+                </option>
+                <option value="Gulbahar Colony.">Gulbahar Colony.</option>
+                <option value="Gulberg.">Gulberg.</option>
+                <option value="Guru-Nanak">Guru-Nanak</option>
+                <option value="Guru-Nanak">Guru-Nanak</option>
+                <option value="HASEEB SHAHEED COLONY">
+                  HASEEB SHAHEED COLONY
+                </option>
+                <option value="Heaven Habitat">Heaven Habitat</option>
+                <option value="HONDA SHOWROOM">HONDA SHOWROOM</option>
+                <option value="IMTIAZ SHAHEED ROAD">IMTIAZ SHAHEED ROAD</option>
+                <option value="IQBAL NAGAR">IQBAL NAGAR</option>
+                <option value="Ismail Raod">Ismail Raod</option>
+                <option value="Jail Road">Jail Road</option>
+                <option value="JAIL STAFF COLONY">JAIL STAFF COLONY</option>
+                <option value="Jamia Chistia Chowk.">
+                  Jamia Chistia Chowk.
+                </option>
+                <option value="Jinah Colony.">Jinah Colony.</option>
+                <option value="Khalid Abad.">Khalid Abad.</option>
+                <option value="Khayaban Colony.">Khayaban Colony.</option>
+                <option value="KHURRAM CHOWK">KHURRAM CHOWK</option>
+                <option value="Kohinoor City">Kohinoor City</option>
+                <option value="Kohinoor Town">Kohinoor Town</option>
+                <option value="Kutwali Road">Kutwali Road</option>
+                <option value="LAL MILL CHOWK">LAL MILL CHOWK</option>
+                <option value="LIAQUAT ROAD">LIAQUAT ROAD</option>
+                <option value="Lyalpur Villas">Lyalpur Villas</option>
+                <option value="Madina Colony">Madina Colony</option>
+                <option value="Madina Town">Madina Town</option>
+                <option value="MADINA TOWN W">MADINA TOWN W</option>
+                <option value="MADINA TOWN X">MADINA TOWN X</option>
+                <option value="MADINA TOWN Y">MADINA TOWN Y</option>
+                <option value="MADINA TOWN Z">MADINA TOWN Z</option>
+                <option value="Mansoorabad Till Pm">Mansoorabad Till Pm</option>
+                <option value="Millat Chowk">Millat Chowk</option>
+                <option value="Model City">Model City</option>
+                <option value="MOHAMMAD NAGAR">MOHAMMAD NAGAR</option>
+                <option value="Mujahid Town.">Mujahid Town.</option>
+                <option value="Naimat Colony.">Naimat Colony.</option>
+                <option value="Nazimabad.">Nazimabad.</option>
+                <option value="Nfc Colony.">Nfc Colony.</option>
+                <option value="Officers Colony.">Officers Colony.</option>
+                <option value="Peoples Colony.">Peoples Colony.</option>
+                <option value="Pmc Hostel Staff">Pmc Hostel Staff</option>
+                <option value="Police Lines">Police Lines</option>
+                <option value="POLICE OFFICER'S COLONY">
+                  POLICE OFFICER'S COLONY
+                </option>
+                <option value="QUAID-E-AZAM BLOCK">QUAID-E-AZAM BLOCK</option>
+                <option value="Race Course Rd">Race Course Rd</option>
+                <option value="Rachna Town.">Rachna Town.</option>
+                <option value="REHMAN TOWN">REHMAN TOWN</option>
+                <option value="Rehman Town (Satyana Road).">
+                  Rehman Town (Satyana Road).
+                </option>
+                <option value="Rehman Townfrom 06:00 AM to 03:00 AM">
+                  Rehman Townfrom 06:00 AM to 03:00 AM
+                </option>
+                <option value="Rubbani Colony.">Rubbani Colony.</option>
+                <option value="SAEED COLONY">SAEED COLONY</option>
+                <option value="SALEEM ULLAH PARK">SALEEM ULLAH PARK</option>
+                <option value="Saman-Abad">Saman-Abad</option>
+                <option value="Saman-Abad">Saman-Abad</option>
+                <option value="SARFARAZ COLONY">SARFARAZ COLONY</option>
+                <option value="Sargoda Road">Sargoda Road</option>
+                <option value="Sargodha road">Sargodha road</option>
+                <option value="SATYANA ROAD">SATYANA ROAD</option>
+                <option value="Satyana Road.">Satyana Road.</option>
+                <option value="Shadmaan.">Shadmaan.</option>
+                <option value="SHADMAN ROAD">SHADMAN ROAD</option>
+                <option value="Shaikhupura Road">Shaikhupura Road</option>
+                <option value="SHALIMAR TOWN">SHALIMAR TOWN</option>
+                <option value="SIR SYED TOWN">SIR SYED TOWN</option>
+                <option value="SOHAIL ABAD">SOHAIL ABAD</option>
+                <option value="Steam Power Colony">Steam Power Colony</option>
+                <option value="SUSA ROAD">SUSA ROAD</option>
+                <option value="Tariq Abad.">Tariq Abad.</option>
+                <option value="Tariq Road.">Tariq Road.</option>
+                <option value="Tech Town">Tech Town</option>
+                <option value="Tech Town&nbsp;">Tech Town&nbsp;</option>
+                <option value="Toyota Showroom/Colony.">
+                  Toyota Showroom/Colony.
+                </option>
+                <option value="Umer Garden.">Umer Garden.</option>
+                <option value="Usman Colony.">Usman Colony.</option>
+                <option value="WAHEED PARK">WAHEED PARK</option>
+                <option value="YASEEN TOWN">YASEEN TOWN</option>
+                <option value="Yasir Town">Yasir Town</option>
+                <option value="Yasir Town">Yasir Town</option>
+                <option value="Yousaf Town">Yousaf Town</option>
+                <option value="Yousaf Town">Yousaf Town</option>
+                <option value="ZUBAIR COLONY">ZUBAIR COLONY</option>
+              </datalist>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="Note">Delivery Note</label>
+              <textarea
+                class="form-control"
+                placeholder="Any instruction for Rider"
+                rows="4"
+                type="text"
+                id="Note"
+                name="Note"
+                required
+                style="resize: none"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="shadow p-4 m-1 bg-white">
+            <h3 class="topborder"><span class="bg-white">Your Order</span></h3>
+            <!-- <hr class="mt-3"> -->
+            <div class="d-flex mt-3">
+              <h5>Products</h5>
+              <h5 class="ms-auto">TOTAL</h5>
+            </div>
+            <hr />
+            <div class="cart-checkout"></div>
+            <hr />
+            <div class="d-flex">
+              <h4>Cart Total</h4>
+              <span class="ms-auto fs-4"
+                ><b class="total-cart-price">0</b> <b class="fs-6">PKR</b></span
+              >
+            </div>
+          </div>
+          <button onclick="" type="submit" class="m-1 mt-3 w-100 btn btn-block btn-success text-md shadow" id="order-button"><b>Place Order</b></button>
+        </div>
+      </form>
+    </div>
+    <div id="toast">
+      <div id="img">Icon</div>
+      <div id="desc">A notification message..</div>
+    </div>
+  </body>
+  <script src="cart.js"></script>
+  <script>
+    function loadCartItems() {
+      //get cart items
+      let cartItems = localStorage.getItem("cart");
+      if (cartItems) {
+        cartItems = JSON.parse(cartItems);
+        // if(!cartItems)
+        //   cartItems=[];
+      } else cartItems = [];
+      // console.log(cartItems);
+
+      //get number of cart items
+      let cart_elements = document.getElementsByClassName("cart-count");
+      let length = cartItems.length;
+      for (let cart of cart_elements) {
+        cart.innerHTML = length;
+        if (length) {
+          cart.classList.remove("d-none");
+        } else {
+          cart.classList.add("d-none");
+        }
+      }
+
+      var shopping_cart = document.getElementById("cart-items");
+      var str = "";
+      var order_str = "";
+      var total = 0;
+      // if(cart_ids.length==0){
+      //   shopping_cart.innerHTML = "<div class='w-100 text-center'>Cart is empty</div>";
+      //   return;
+      // }
+
+      for (let i = 0; i < cartItems.length; i++) {
+        let cartItem = cartItems[i];
+        let itemID = cartItem.ID;
+        let item = menuItem(itemID);
+        let price = calculatePrice(cartItem, item);
+        total += price;
+        str += `<li class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div class="me-auto">${item.Name}</div><div class="d-flex place-items-center"><span class="px-2 lh-1 btn-danger rounded-pill" role="button" onclick="decreaseQunatity('${i}')">-</span><span class="badge bg-primary rounded-pill quantity-cart-${i}">${cartItem.Q}</span><span class="px-2 lh-1 btn-success rounded-pill" role="button" onclick="increaseQunatity('${i}')">+</span></div></div><div class="d-flex justify-content-between align-items-start"><div class="fw-bold small">(`;
+
+        // +item.Choices[item_detail.Choices[0].ChoiceID].Options[item_detail.Choices[0].OptionID].Name+
+        // console.log(item_detail.Choices);
+        let optionNames = "";
+        let cartChoices = cartItem.C;
+        let choices = item.Choices;
+        order_str += `<div class="d-flex my-2"><span>${item.Name} <b>x <span class="quantity-cart-${i}">${cartItem.Q}</span></b><br>(`;
+          
+        // order_str += `<div class="col"><div class="card shadow mb-3"><div class="row g-0"><div class="col-md-5"><img src="${item.ImageURL}" class="img-fluid rounded-top" alt="..."></div><div class="col-md-7"><div class="card-body"><h5 class="card-title">${item.Name}</h5><div class="card-text"><div class="input-group mb-3"><span class="input-group-text" id="quantity-label">Quantity</span><input type="number" class="form-control" aria-label="Quantity" aria-describedby="quantity-label" onchange="changeItemQuantity('${i}', this.value)" onkeyup="changeItemQuantity('${i}', this.value)" name="qty" id="qty" min="1" max="50" step="1" value="${cartItem.Q}"><button class="btn btn-danger fw-bolder" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove from Cart" onclick="removeCartItem(${i})">X</button></div><p>Total: <b class="price-cart-${i}">${price}</b></p></div></div></div></div><div class="card-footer p-0"><div class="accordion-item border-0"><h2 class="accordion-header" id="modifiers-cart-header-${i}"><button class="accordion-button btn-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#modifers-cart-panel-${i}" aria-expanded="true" aria-controls="modifers-cart-panel-${i}">Modifiers</button></h2><div id="modifers-cart-panel-${i}" class="accordion-collapse collapse" aria-labelledby="modifiers-cart-header-${i}"><div class="accordion-body">`;
+
+        // // +item.Choices[cartItem.Choices[0].ChoiceID].Options[cartItem.Choices[0].OptionID].Name+
+        // // console.log(cartItem.Choices);
+
+        // for (
+        //   let choiceIndex = 0;
+        //   choiceIndex < item.Choices.length;
+        //   choiceIndex++
+        // ) {
+        //   let choice = item.Choices[choiceIndex];
+        //   let cartItemChoice = cartItem.C[choiceIndex];
+
+        //   if (!choice.Optional && choice.Options.length == 1) {
+        //     // must have field
+        //   } else if (choice.Optional && choice.Options.length == 1) {
+        //     //check boxes;
+        //     // let value = cartItemChoice == 0;
+        //     let name = choice.Options[0].Name;
+        //     order_str +=
+        //       '<div class="form-check"><input class="form-check-input" type="checkbox" ' +
+        //       (cartItemChoice == 0 ? "checked" : "") +
+        //       ' id="option-' +
+        //       i +
+        //       "-" +
+        //       choiceIndex +
+        //       '" onchange="changeOptional(' +
+        //       i +
+        //       "," +
+        //       choiceIndex +
+        //       ',this.checked)"><label class="form-check-label" for="option-' +
+        //       i +
+        //       "-" +
+        //       choiceIndex +
+        //       '"> ' +
+        //       name.substring(0, name.length - 3) +
+        //       " (PKR " +
+        //       choice.Options[0].Price +
+        //       ")</label></div>";
+        //   } else if (choice.Options.length > 1) {
+        //     // let value = cartItemChoice && cartItemChoice.OptionID;
+
+        //     order_str +=
+        //       '<div><select onchange="changeOption(' +
+        //       i +
+        //       "," +
+        //       choiceIndex +
+        //       ', this.selectedIndex)" class="form-select p-2"  id="option-' +
+        //       item.ItemID +
+        //       "-" +
+        //       choice.ChoiceID +
+        //       '" class="w-100 padding-sm">';
+        //     for (let option of choice.Options) {
+        //       order_str +=
+        //         "<option " +
+        //         (choice.Options.indexOf(option) == cartItemChoice
+        //           ? "selected>"
+        //           : ">") +
+        //         option.Name +
+        //         "</option>";
+        //     }
+        //     order_str += "</select></div>";
+        //   }
+        // }
+
+        // for (let choice_details of cartItem.Choices) {
+
+        //   console.log(choice_details);
+        //   let Choice = getProperty(
+        //     item.Choices,
+        //     "ChoiceID",
+        //     choice_details.ChoiceID
+        //   );
+        //   let Option = Choice.Options[choice_details.OptionID];
+        //   //   let option = getProperty(Choice.Options, "OptionID", choice_details.OptionID );
+        //   //   console.log(choice_details.OptionID, Option);
+        //   order_str += Option.Name + ",";
+        // }
+        // order_str += "</div></div></div></div></div></div>";
+
+        for (let c = 0; c < cartChoices.length; c++) {
+          let o = cartChoices[c];
+          if (o != null) {
+            let optionName = choices[c].Options[o].Name;
+            if (choices[c].Optional)
+              optionNames +=
+                optionName.substring(0, optionName.length - 3) + ", ";
+            else optionNames += choices[c].Options[o].Name + ", ";
+          }
+        }
+        optionNames = optionNames.substring(0, optionNames.length - 2);
+        str +=
+          optionNames +
+          `)</div><div class="d-inline ms-auto text-nowrap"><span class="price-cart-${i}">${price}</span> PKR</div></div></li>`;
+        order_str+=optionNames + `)</span><h5 class="ms-auto price-cart-${i}">${price}</h5></div>`;
+      }
+      shopping_cart.innerHTML = str;
+      let price_elements = document.getElementsByClassName("total-cart-price");
+      for (let element of price_elements) element.innerHTML = total;
+
+      let cart_modifiers = document.getElementsByClassName("cart-checkout");
+      for (let element of cart_modifiers) element.innerHTML = order_str;
+    }
+
+    function changeOption(index, choice, value) {
+      console.log(index, choice, value);
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      let p = getProperty(cart_items[index].Choices, "ChoiceIndex", choice);
+      //   console.log(p);
+      if (p) p.OptionID = value;
+      else
+        cart_items[index].Choices.push({
+          ChoiceIndex: choice,
+          OptionID: value,
+        });
+      localStorage.setItem("cart", JSON.stringify(cart_items));
+      console.log(cart_items);
+      changePrice(cart_items, index);
+    }
+    function changeOptional(index, choice, value) {
+      console.log(index, choice, value);
+
+      let cartItems = [];
+      if (localStorage.getItem("cart")) {
+        cartItems = JSON.parse(localStorage.getItem("cart"));
+      }
+      let cartItem = cartItems[index];
+
+      cartItem.C[choice] = value ? 0 : null;
+      //   console.log(p);
+      // if (p) p.OptionID = value ? 0 : null;
+      // else
+      //   cartItems[index].Choices.push({
+      //     ChoiceIndex: choice,
+      //     OptionID: value ? 0 : null,
+      //   });
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      console.log(cartItems);
+      changePrice(cartItems, index);
+    }
+
+    function changeItemQuantity(index, qty) {
+      if (qty == 0) qty = 1;
+      console.log(index, qty);
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      cart_items[index].Q = qty;
+      localStorage.setItem("cart", JSON.stringify(cart_items));
+
+      changePrice(cart_items, index);
+    }
+    function removeCartItem(index) {
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      cart_items.splice(index, 1);
+
+      localStorage.setItem("cart", JSON.stringify(cart_items));
+      loadCartItems();
+    }
+
+    function myScript() {
+      //   displayMenu(menu);
+
+      loadCartItems();
+    }
+
+    function placeOrder(event, form_obj){
+      event.preventDefault();
+
+      let order_button = document.getElementById("order-button");
+      if(order_button.innerHTML.charAt(1) != 'b'){
+        launch_toast("-", "Please wait");
+        return;
+      }
+
+      order_button.innerHTML = '<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span> Loading...';
+
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      if(cart_items.length==0){
+        launch_toast("X", "Nothing in cart.");
+        return;
+      }
+
+      // form_obj = form_obj.serializeArray();
+
+      // form_obj = form_obj.concat([
+      //     {name: "Cart", value: JSON.stringify(cart_items)}
+      // ]);
+
+      const body = {
+
+        CustomerName: form_obj["Customer-Name"].value,
+        CustomerPhone: form_obj["Customer-Phone"].value,
+        DeliveryAddress: `${form_obj["Customer-Home-Address"].value}, ${form_obj["Customer-Street-Address"].value}, ${form_obj["Customer-Area"].value}`,
+        // Home: form_obj["Customer-Home-Address"].value,
+        // Street: form_obj["Customer-Street-Address"].value,
+        // Area: form_obj["Customer-Area"].value,
+        Note: form_obj["Note"].value,
+        Cart: JSON.stringify(cart_items) 
+      }
+      // console.log(body);
+      var formBody = [];
+      for (var property in body) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(body[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+      }
+      formBody = formBody.join("&");
+      
+      fetch(
+        "https://black-cottage.herokuapp.com/api/orders/guestOrder",
+        {
+        method: "POST",
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}, 
+        body: formBody
+      }).then(res => {
+        return res.json();
+      }).then(data=>{console.log(data); order_button.innerHTML="<b>Place Order</b>"}).catch(err=>{console.log(err); order_button.innerHTML="<b>Place Order</b>"});
+
+
+      // console.log(form_obj);
+    }
+  </script>
+</html>

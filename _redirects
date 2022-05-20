@@ -1,0 +1,5 @@
+# Redirects from what the browser requests to what we serve
+/android           https://play.google.com/store/apps/details?id=com.whitescastle&hl=en&gl=US
+/droid           https://play.google.com/store/apps/details?id=com.whitescastle&hl=en&gl=US
+/appstore           https://apps.apple.com/pk/app/whites-castle/id1573628371
+/app           https://play.google.com/store/apps/details?id=com.whitescastle&hl=en&gl=US

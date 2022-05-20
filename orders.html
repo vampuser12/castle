@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Whites Castle</title>
+  </head>
+  <body onload="myScript()" style="padding-top: 5em">
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-5 fw-bold fs-3" href="#">Whites Castle</a>
+        <div class="d-flex">
+          <a
+            href="cart.html"
+            class="btn btn-outline btn-light d-block d-md-none"
+            ><i class="fa-shopping-cart fa"></i
+            ><span class="badge rounded-pill bg-success d-none cart-count">
+              3
+              <span class="visually-hidden">number of cart</span>
+            </span></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mb-2 mb-lg-0 ms-auto fs-5 me-5">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+              >
+                <i class="fa fa-shopping-cart"></i>
+                <span class="badge rounded-pill bg-success d-none cart-count">
+                  3
+                  <span class="visually-hidden">number of cart</span>
+                </span>
+              </a>
+              <ul
+                class="dropdown-menu bg-dark dropdown-menu-dark"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                <li class="">
+                  <a class="dropdown-item text-center p-2 px-5" href="cart.html"
+                    >View Cart</a
+                  >
+                </li>
+                <li class="d-flex">
+                  <a
+                    class="text-decoration-none w-100 btn-success text-center p-2 px-5"
+                    href="checkout.html"
+                    >Checkout</a
+                  ><a
+                    class="text-decoration-none w-100 btn-danger text-center p-2 px-5 cursor-pointer"
+                    href="#"
+                    onclick="clearCart()"
+                    >Clear</a
+                  >
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                  <div class="w-100 px-3 text-end">
+                    Total:
+                    <span class="fs-5 fw-bold total-cart-price">0</span> PKR
+                  </div>
+                </li>
+                <li class="p-2">
+                  <ol
+                    class="list-group"
+                    style="max-height: 50vh; overflow-y: auto"
+                    id="cart-items"
+                  ></ol>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="branches.html">Branches</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="catering.html">Catering</a>
+            </li>
+          </ul>
+          <span class="navbar-text"> </span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main nav-scroller">
+      <!-- show multiple receipt page -->
+      <!-- demo order card -->
+      <div class="container-fluid px-3">
+        <div class="row orders"></div>
+      </div>
+    </div>
+
+    <div id="toast">
+      <div id="img">Icon</div>
+      <div id="desc">A notification message..</div>
+    </div>
+  </body>
+  <script src="cart.js"></script>
+  <script>
+    "use strict";
+
+    // const categoryIDs={
+    //     "Special Pizza": 1,
+    //     "Traditional Pizza": 2,
+    //     "Square Pizza": 3,
+    //     "Appitizer": 4,
+    //     "Pasta": 5 ,
+    //     "Beverage": 6,
+    //     "Deals": 7
+    //   }
+
+    function myScript() {
+      //fetch login status
+      fetch("https://black-cottage.herokuapp.com/api/loginstatus", {
+        headers: {
+          //token
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }).then(
+        function (response) {
+          // response.json().then(res=>console.log(res));
+          // console.log();
+
+          if (response.status !== 200) {
+            console.log(response);
+            //readable stream to text
+            response.text().then((res) => {
+              console.log(res);
+            });
+            // response.body.getReader().read().then(res=>console.log(res));
+            // response.json().then(res => {
+            //   console.log(res);
+            // });
+            return;
+          } //go to orders.html
+          else {
+            response.text().then((res) => {
+              console.log(res);
+            });
+            //get orders
+            fetch("https://black-cottage.herokuapp.com/api/orders/AllOrders", {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("token"),
+              },
+            })
+              .then(function (response) {
+                console.log(response);
+                if (response.status !== 200) {
+                  response.text().then((res) => console.log(res));
+                  return;
+                }
+                return response.json();
+              })
+              .then(function (data) {
+                console.log(data);
+                //show orders
+                var orders = document.getElementsByClassName("orders")[0];
+                var listdata = "";
+                for (var i = 0; i < data.length; i++) {
+                  var order = data[i];
+                  console.log(order);
+
+                  //get order status
+                  let status = "Pending";
+                  if (order.Cancelled) {
+                    status = "Cancelled";
+                  } else if (order.OrderDelivered) status = "Finished";
+                  else if (order.RiderHandOver) status = "On The Way";
+                  else if (order.OrderReceived) status = "Preparing";
+
+                  listdata += `<div class="col-lg-4 order-${
+                    order.ID
+                  }"><div class="m-2 card ${
+                    status == "Finished"
+                      ? "border-success"
+                      : status == "On The Way"
+                      ? "border-warning"
+                      : status == "Preparing"
+                      ? "border-info"
+                      : status == "Cancelled"
+                      ? "border-danger"
+                      : "border-none"
+                  }">
+              <div class="card-header d-flex">
+                Order-
+                <strong class="">${order.ID}</strong>
+                <span class="ms-auto"> <strong>Status: </strong><select id="status${
+                  order.ID
+                }" onchange="changeOrderStatus(${order.ID})">
+                  <option ${
+                    status == "Pending" ? "selected" : ""
+                  } value="Pending">Pending</option>
+                  <option ${
+                    status == "Preparing" ? "selected" : ""
+                  } value="Preparing">Preparing</option>
+                  <option ${
+                    status == "On The Way" ? "selected" : ""
+                  } value="On The Way">On The Way</option>
+                  <option ${
+                    status == "Finished" ? "selected" : ""
+                  } value="Finished">Finished</option>
+                  <option ${
+                    status == "Cancelled" ? "selected" : ""
+                  } value="Cancelled">Cancelled</option>
+                  </select></span>
+              </div>
+              <div class="card-body">
+                <div class="">
+                  <div>
+                    <strong>${order.CustomerName}</strong>
+                  </div>
+                  <div>${order.DeliveryAddress}</div>
+                  <div>${order.Note}</div>
+                  <!-- <div>Email: info@webz.com.pl</div> -->
+                  <div>${order.CustomerPhone}</div>
+                </div><div class="table-responsive-sm">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Options</th>
+
+                        <th class="right">Unit Cost</th>
+                        <th class="center">Qty</th>
+                        <th class="right">Total</th>
+                      </tr>
+                    </thead><tbody>`;
+                  //iterate through order items
+                  for (var j = 0; j < order.Items.length; j++) {
+                    var item = order.Items[j];
+                    const itemPrice =
+                      item.Price +
+                      item.Choices.reduce(function (acc, cur) {
+                        return acc + cur.OptionPrice;
+                      }, 0);
+                    listdata += `
+                      <tr>
+                        <td class="left strong">${item.Name}</td>
+                        <td class="left">${item.Choices.reduce(
+                          //get OptionNames
+                          function (acc, cur) {
+                            return acc + cur.OptionName + ", ";
+                          },
+                          ""
+                        )}</td>
+
+                        <td class="right">${
+                          //get price
+                          itemPrice
+                        }</td>
+                        <td class="center">${item.Quantity}</td>
+                        <td class="right">${
+                          //total price
+                          itemPrice * item.Quantity
+                        }</td>
+                      </tr>`;
+                  }
+
+                  listdata += `
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-sm-5"></div>
+
+                  <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                      <tbody>
+                        <tr>
+                          <td class="left">
+                            <strong>Subtotal</strong>
+                          </td>
+                          <td class="right">${
+                            order.DiscountedAmount + " PKR"
+                          }</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>`;
+                  // var orderDiv = document.createElement("div");
+                  // orderDiv.className = "order";
+                  // //show order in bootstrap card
+                  // var card = document.createElement("div");
+                  // card.className = "card";
+                  // var cardBody = document.createElement("div");
+                  // cardBody.className = "card-body";
+                  // card.appendChild(cardBody);
+                  // var cardTitle = document.createElement("h5");
+                  // cardTitle.className = "card-title";
+                  // cardTitle.innerHTML = order.ID;
+                  // cardBody.appendChild(cardTitle);
+                  // var cardText = document.createElement("p");
+                  // cardText.className = "card-text";
+                  // cardText.innerHTML = order.CustomerName;
+                  // cardBody.appendChild(cardText);
+                  // var cardText2 = document.createElement("p");
+                  // cardText2.className = "card-text";
+                  // cardText2.innerHTML = order.CustomerPhones;
+                  // cardBody.appendChild(cardText2);
+
+                  // orders.appendChild(card);
+                }
+                orders.innerHTML = listdata;
+              });
+          }
+        }
+
+        // Examine the text in the response
+      );
+
+      loadCartItems();
+    }
+    function changeOrderStatus(orderID) {
+      var status = document.getElementById("status" + orderID).value;
+      console.log(orderID, status);
+
+      fetch(
+        "https://black-cottage.herokuapp.com/api/orders/ChangeOrderStatus",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            Authorization: localStorage.getItem("token"),
+          },
+          body: `OrderID=${orderID}&Status=${
+            //encoded
+            encodeURIComponent(status)
+          }`,
+        }
+      ).then(function (response) {
+        if (response.status !== 200) {
+          response.text().then(function (text) {
+            console.log(text);
+          });
+        } else {
+          //change order card header color
+          var card = document.getElementsByClassName("order-" + orderID)[0]
+            .children[0];
+          card.className = `m-2 card ${
+            status == "Finished"
+              ? "border-success"
+              : status == "On The Way"
+              ? "border-warning"
+              : status == "Preparing"
+              ? "border-info"
+              : status == "Cancelled"
+              ? "border-danger"
+              : "border-none"
+          }`;
+        }
+
+        // return response.json();
+      });
+    }
+  </script>
+</html>

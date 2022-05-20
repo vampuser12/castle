@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Whites Castle</title>
+  </head>
+  <body onload="myScript()" style="padding-top: 5em">
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-5 fw-bold fs-3" href="#">Whites Castle</a>
+        <div class="d-flex">
+          <a
+            href="cart.html"
+            class="btn btn-outline btn-light d-block d-md-none"
+            ><i class="fa-shopping-cart fa"></i
+            ><span class="badge rounded-pill bg-success d-none cart-count">
+              3
+              <span class="visually-hidden">number of cart</span>
+            </span></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mb-2 mb-lg-0 ms-auto fs-5 me-5">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link active dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+              >
+                <i class="fa fa-shopping-cart"></i>
+                <span class="badge rounded-pill bg-success d-none cart-count">
+                  3
+                  <span class="visually-hidden">number of cart</span>
+                </span>
+              </a>
+              <ul
+                class="dropdown-menu bg-dark dropdown-menu-dark"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                <li class="">
+                  <a class="dropdown-item text-center p-2 px-5" href="cart.html"
+                    >View Cart</a
+                  >
+                </li>
+                <li class="d-flex">
+                  <a
+                    class="text-decoration-none w-100 btn-success text-center p-2 px-5"
+                    href="checkout.html"
+                    >Checkout</a
+                  ><a
+                    class="text-decoration-none w-100 btn-danger text-center p-2 px-5 cursor-pointer"
+                    href="#"
+                    onclick="clearCart()"
+                    >Clear</a
+                  >
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                  <div class="w-100 px-3 text-end">
+                    Total:
+                    <span class="fs-5 fw-bold total-cart-price">0</span> PKR
+                  </div>
+                </li>
+                <li class="p-2">
+                  <ol class="list-group" style="max-height: 50vh; overflow-y: auto;" id="cart-items"></ol>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="branches.html">Branches</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="catering.html">Catering</a>
+            </li>
+          </ul>
+          <span class="navbar-text"> </span>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container main">
+      <div class="row row-cols-md-2 row-cols-1">
+        <span class="mt-auto text-lg col"
+          >Total: <b class="text-lg total-cart-price">0</b>
+          <b class="text-md">PKR</b></span
+        >
+        <div class="col mt-2 d-flex">
+          <a href="checkout.html" class="ms-auto btn btn-success">Checkout</a>
+          <a href="menu.html" class="btn">Menu</a>
+          <a href="#" class="btn btn-danger" onclick="clearCart()"
+            >Clear Cart</a
+          >
+        </div>
+      </div>
+      <hr />
+
+      <h3 class="my-4">Shopping Cart</h3>
+      <div class="cart-modifiers row row-cols-md-2">ooo Loading Cart ooo</div>
+      <hr />
+    </div>
+
+    <div id="toast">
+      <div id="img">Icon</div>
+      <div id="desc">A notification message..</div>
+    </div>
+  </body>
+  <script src="cart.js"></script>
+  <script>
+    function loadCartItems() {
+      //get cart items
+      let cartItems = localStorage.getItem("cart");
+      if (cartItems) {
+        cartItems = JSON.parse(cartItems);
+        // if(!cartItems)
+        //   cartItems=[];
+      } else cartItems = [];
+      // console.log(cartItems);
+
+      //get number of cart items
+      let cart_elements = document.getElementsByClassName("cart-count");
+      let length = cartItems.length;
+      for (let cart of cart_elements) {
+        cart.innerHTML = length;
+        if (length) {
+          cart.classList.remove("d-none");
+        } else {
+          cart.classList.add("d-none");
+        }
+      }
+
+      var shopping_cart = document.getElementById("cart-items");
+      var str = "";
+      var other_str = "";
+      var total = 0;
+      // if(cart_ids.length==0){
+      //   shopping_cart.innerHTML = "<div class='w-100 text-center'>Cart is empty</div>";
+      //   return;
+      // }
+
+      for (let i = 0; i < cartItems.length; i++) {
+        let cartItem = cartItems[i];
+        let itemID = cartItem.ID;
+        let item = menuItem(itemID);
+        let price = calculatePrice(cartItem, item);
+        total += price;
+        str += `<li class="list-group-item"><div class="d-flex justify-content-between align-items-start"><div class="me-auto">${item.Name}</div><div class="d-flex place-items-center"><span class="px-2 lh-1 btn-danger rounded-pill" role="button" onclick="decreaseQunatity('${i}')">-</span><span class="badge bg-primary rounded-pill quantity-cart-${i}">${cartItem.Q}</span><span class="px-2 lh-1 btn-success rounded-pill" role="button" onclick="increaseQunatity('${i}')">+</span></div></div><div class="d-flex justify-content-between align-items-start"><div class="fw-bold small">(`;
+
+        // +item.Choices[item_detail.Choices[0].ChoiceID].Options[item_detail.Choices[0].OptionID].Name+
+        // console.log(item_detail.Choices);
+        let optionNames = "";
+        let cartChoices = cartItem.C;
+        let choices = item.Choices;
+
+        other_str += `<div class="col"><div class="card shadow mb-3"><div class="row g-0"><div class="col-md-5"><img src="${item.ImageURL}" class="img-fluid rounded-top" alt="..."></div><div class="col-md-7"><div class="card-body"><h5 class="card-title">${item.Name}</h5><div class="card-text"><div class="input-group mb-3"><span class="input-group-text" id="quantity-label">Quantity</span><input type="number" class="form-control" aria-label="Quantity" aria-describedby="quantity-label" onchange="changeItemQuantity('${i}', this.value)" onkeyup="changeItemQuantity('${i}', this.value)" name="qty" id="qty" min="1" max="50" step="1" value="${cartItem.Q}"><button class="btn btn-danger fw-bolder" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Remove from Cart" onclick="removeCartItem(${i})">X</button></div><p>Total: <b class="price-cart-${i}">${price}</b></p></div></div></div></div><div class="card-footer p-0"><div class="accordion-item border-0"><h2 class="accordion-header" id="modifiers-cart-header-${i}"><button class="accordion-button btn-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#modifers-cart-panel-${i}" aria-expanded="true" aria-controls="modifers-cart-panel-${i}">Modifiers</button></h2><div id="modifers-cart-panel-${i}" class="accordion-collapse collapse" aria-labelledby="modifiers-cart-header-${i}"><div class="accordion-body">`;
+
+        // +item.Choices[cartItem.Choices[0].ChoiceID].Options[cartItem.Choices[0].OptionID].Name+
+        // console.log(cartItem.Choices);
+
+        for (
+          let choiceIndex = 0;
+          choiceIndex < item.Choices.length;
+          choiceIndex++
+        ) {
+          let choice = item.Choices[choiceIndex];
+          let cartItemChoice = cartItem.C[choiceIndex];
+
+          if (!choice.Optional && choice.Options.length == 1) {
+            // must have field
+          } else if (choice.Optional && choice.Options.length == 1) {
+            //check boxes;
+            // let value = cartItemChoice == 0;
+            let name = choice.Options[0].Name;
+            other_str +=
+              '<div class="form-check"><input class="form-check-input" type="checkbox" ' +
+              (cartItemChoice == 0 ? "checked" : "") +
+              ' id="option-' +
+              i +
+              "-" +
+              choiceIndex +
+              '" onchange="changeOptional(' +
+              i +
+              "," +
+              choiceIndex +
+              ',this.checked)"><label class="form-check-label" for="option-' +
+              i +
+              "-" +
+              choiceIndex +
+              '"> ' +
+              name.substring(0, name.length - 3) +
+              " (PKR " +
+              choice.Options[0].Price +
+              ")</label></div>";
+          } else if (choice.Options.length > 1) {
+            // let value = cartItemChoice && cartItemChoice.OptionID;
+
+            other_str +=
+              '<div><select onchange="changeOption(' +
+              i +
+              "," +
+              choiceIndex +
+              ', this.selectedIndex)" class="form-select p-2"  id="option-' +
+              item.ItemID +
+              "-" +
+              choice.ChoiceID +
+              '" class="w-100 padding-sm">';
+            for (let option of choice.Options) {
+              other_str +=
+                "<option " +
+                (choice.Options.indexOf(option) == cartItemChoice
+                  ? "selected>"
+                  : ">") +
+                option.Name +
+                "</option>";
+            }
+            other_str += "</select></div>";
+          }
+        }
+
+        // for (let choice_details of cartItem.Choices) {
+
+        //   console.log(choice_details);
+        //   let Choice = getProperty(
+        //     item.Choices,
+        //     "ChoiceID",
+        //     choice_details.ChoiceID
+        //   );
+        //   let Option = Choice.Options[choice_details.OptionID];
+        //   //   let option = getProperty(Choice.Options, "OptionID", choice_details.OptionID );
+        //   //   console.log(choice_details.OptionID, Option);
+        //   other_str += Option.Name + ",";
+        // }
+        other_str += "</div></div></div></div></div></div>";
+
+        for (let c = 0; c < cartChoices.length; c++) {
+          let o = cartChoices[c];
+          if (o != null) {
+            let optionName = choices[c].Options[o].Name;
+            if (choices[c].Optional)
+              optionNames +=
+                optionName.substring(0, optionName.length - 3) + ", ";
+            else optionNames += choices[c].Options[o].Name + ", ";
+          }
+        }
+        optionNames = optionNames.substring(0, optionNames.length - 2);
+        str +=
+          optionNames +
+          `)</div><div class="d-inline ms-auto text-nowrap"><span class="price-cart-${i}">${price}</span> PKR</div></div></li>`;
+      }
+      shopping_cart.innerHTML = str;
+      let price_elements = document.getElementsByClassName("total-cart-price");
+      for (let element of price_elements) element.innerHTML = total;
+
+      let cart_modifiers = document.getElementsByClassName("cart-modifiers");
+      for (let element of cart_modifiers) element.innerHTML = other_str;
+    }
+
+    function changeOption(index, choice, value) {
+      console.log(index, choice, value);
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      let p = getProperty(cart_items[index].Choices, "ChoiceIndex", choice);
+      //   console.log(p);
+      if (p) p.OptionID = value;
+      else
+        cart_items[index].Choices.push({
+          ChoiceIndex: choice,
+          OptionID: value,
+        });
+      localStorage.setItem("cart", JSON.stringify(cart_items));
+      console.log(cart_items);
+      changePrice(cart_items, index);
+    }
+    function changeOptional(index, choice, value) {
+      console.log(index, choice, value);
+
+      let cartItems = [];
+      if (localStorage.getItem("cart")) {
+        cartItems = JSON.parse(localStorage.getItem("cart"));
+      }
+      let cartItem = cartItems[index];
+
+      cartItem.C[choice] = value ? 0 : null;
+      //   console.log(p);
+      // if (p) p.OptionID = value ? 0 : null;
+      // else
+      //   cartItems[index].Choices.push({
+      //     ChoiceIndex: choice,
+      //     OptionID: value ? 0 : null,
+      //   });
+      localStorage.setItem("cart", JSON.stringify(cartItems));
+      console.log(cartItems);
+      changePrice(cartItems, index);
+    }
+
+    function changeItemQuantity(index, qty) {
+      if (qty == 0) qty = 1;
+      console.log(index, qty);
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      cart_items[index].Q = qty;
+      localStorage.setItem("cart", JSON.stringify(cart_items));
+
+      changePrice(cart_items, index);
+    }
+    function removeCartItem(index) {
+      let cart_items = [];
+      if (localStorage.getItem("cart")) {
+        cart_items = JSON.parse(localStorage.getItem("cart"));
+      }
+      cart_items.splice(index, 1);
+
+      localStorage.setItem("cart", JSON.stringify(cart_items));
+      loadCartItems();
+    }
+
+    function myScript() {
+      //   displayMenu(menu);
+
+      loadCartItems();
+    }
+  </script>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+      integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+      integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
+    <title>Whites Castle</title>
+
+
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  </head>
+  <body onload="myScript()" class="h-100">
+    <header>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-5 fw-bold fs-3" href="#">Whites Castle</a>
+        <div class="d-flex">
+          <a
+            href="cart.html"
+            class="btn btn-outline btn-light d-block d-md-none"
+            ><i class="fa-shopping-cart fa"></i
+            ><span class="badge rounded-pill bg-success d-none cart-count">
+              3
+              <span class="visually-hidden">number of cart</span>
+            </span></a
+          >
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarText"
+            aria-controls="navbarText"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav mb-2 mb-lg-0 ms-auto fs-5 me-5">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarScrollingDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                data-bs-auto-close="outside"
+                aria-expanded="false"
+              >
+                <i class="fa fa-shopping-cart"></i>
+                <span class="badge rounded-pill bg-success d-none cart-count">
+                  3
+                  <span class="visually-hidden">number of cart</span>
+                </span>
+              </a>
+              <ul
+                class="dropdown-menu bg-dark dropdown-menu-dark"
+                aria-labelledby="navbarScrollingDropdown"
+              >
+                <li class="">
+                  <a class="dropdown-item text-center p-2 px-5" href="cart.html"
+                    >View Cart</a
+                  >
+                </li>
+                <li class="d-flex">
+                  <a
+                    class="text-decoration-none w-100 btn-success text-center p-2 px-5"
+                    href="checkout.html"
+                    >Checkout</a
+                  ><a
+                    class="text-decoration-none w-100 btn-danger text-center p-2 px-5 cursor-pointer"
+                    href="#"
+                    onclick="clearCart()"
+                    >Clear</a
+                  >
+                </li>
+                <li>
+                  <hr class="dropdown-divider" />
+                  <div class="w-100 px-3 text-end">
+                    Total:
+                    <span class="fs-5 fw-bold total-cart-price">0</span> PKR
+                  </div>
+                </li>
+                <li class="p-2">
+                  <ol class="list-group" style="max-height: 50vh; overflow-y: auto;" id="cart-items"></ol>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="index.html"
+                >Home</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="menu.html">Menu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="branches.html">Branches</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="catering.html">Catering</a>
+            </li>
+          </ul>
+          <span class="navbar-text"> </span>
+        </div>
+      </div>
+    </nav>
+  </header>
+    
+    <main>
+
+      <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 1" aria-current="true"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2" class=""></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3" class=""></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="3" aria-label="Slide 4" class=""></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item active" style="height: 75vh; background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0,0,0,0.1), rgba(0, 0, 0, 0.6) ), url('./Images/main.jpg')  no-repeat center top;">
+            <!-- <div style=""></div> -->
+
+              <!-- <img src="Images/eden.jpg" alt="" class="d-block w-100"> -->
+            <!-- </div> -->
+            <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg> -->
+    
+            <div class="container">
+              <div class="carousel-caption text-start">
+                <h1>Satiyana Road Branch</h1>
+                <p>Our main branch</p>
+                <p><a class="btn btn-lg btn-primary" href="#satiyana-road">More Info</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" style="height: 75vh;background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0,0,0,0.2), rgba(0, 0, 0, 0.7) ), url('./Images/jinnah.jpg')  no-repeat center top;">
+            <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg> -->
+    
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>Jinnah Colony Branch</h1>
+                <p>Hajvery Road</p>
+                <p><a class="btn btn-primary" href="#jinnah-colony">More Info</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" style="height: 75vh;background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0,0,0,0.1), rgba(0, 0, 0, 0.6) ), url('./Images/eden.jpg')  no-repeat center top;">
+            <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg> -->
+    
+            <div class="container">
+              <div class="carousel-caption">
+                <h1>Eden Garden Branch</h1>
+                <p>Zia Town near Jazz Head Office</p>
+                <p><a class="btn btn-primary" href="#eden-garden">More Info</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" style="height: 75vh;background: linear-gradient( rgba(0, 0, 0, 0.6), rgba(0,0,0,0.1), rgba(0, 0, 0, 0.6) ), url('./Images/gm.jpg')  no-repeat center top;">
+            <!-- <svg class="bd-placeholder-img" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#777"></rect></svg>
+     -->
+            <div class="container">
+              <div class="carousel-caption text-end">
+                <h1>GM Abad Branch</h1>
+                <p>Gulam Muhammad Abad, Narwala Road.</p>
+                <p><a class="btn btn-primary" href="#gm-abad">More Info</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    
+    
+      <!-- Marketing messaging and featurettes
+      ================================================== -->
+      <!-- Wrap the rest of the page in another container to center all the content. -->
+    
+      <div class="container marketing">
+    
+        <!-- START THE FEATURETTES -->
+    
+        <hr class="featurette-divider">
+    
+        <div class="row featurette" id="satiyana-road">
+          <div class="col-md-7 pt-lg-5" data-aos="fade-right" data-aos-duration="500">
+            <h2 class="featurette-heading mt-5"><span class="text-muted">Whites Castle</span> Satiyana Road</h2>
+            <p class="lead">Street #2 Gulbahar Colony.</p>
+            <a href="tel:+9241111606060" class="btn btn-success mt-2">Call Us Now</a>
+            <a class="btn btn-success mt-2">Call Us Now</a>
+          </div>
+          <div class="col-md-5" data-aos="fade-left" data-aos-duration="500">
+            <div class="shadow p-1">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5102.484910433104!2d73.10696935579828!3d31.40034328064086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x392267e1a928ce9f%3A0x4a2aa50f98e51e9!2sWhites%20Castle%20Satayana%20Road!5e0!3m2!1sen!2s!4v1649760045852!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          </div>
+        </div>
+    
+        <hr class="featurette-divider">
+    
+    
+        <div class="row featurette" id="jinnah-colony">
+          <div class="col-md-7 order-md-2 pt-lg-5" data-aos="fade-left" data-aos-duration="500">
+            <h2 class="featurette-heading mt-5"><span class="text-muted">Whites Castle</span> Jinnah Colony</h2>
+            <p class="lead">63-A Hajvery Rd, near BC Tower.</p>
+            <a href="tel:+9241111606060" class="btn btn-success mt-2">Call Us Now</a>
+            <a class="btn btn-success mt-2">Call Us Now</a>
+          </div>
+          <div class="col-md-5" data-aos="fade-right" data-aos-duration="500">
+            <div class="shadow order-md-1 p-1">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.824340697464!2d73.06607831473777!3d31.418965459286856!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922433fa1e31cf5%3A0x3319f9d38dd6092!2sWhites%20Castle%20Jinnah%20Colony!5e0!3m2!1sen!2sus!4v1649761153778!5m2!1sen!2sus" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+          </div>
+          </div>
+        </div>
+    
+        <hr class="featurette-divider">
+    
+        <div class="row featurette" id="eden-garden">
+          <div class="col-md-7 pt-lg-5" data-aos="fade-right" data-aos-duration="500">
+            <h2 class="featurette-heading mt-5"><span class="text-muted">Whites Castle</span> Eden Garden</h2>
+            <p class="lead">Blue Bell Tower, 208 Chak Road near Jazz Head Office.</p>
+            <a href="tel:+9241111606060" class="btn btn-success mt-2">Call Us Now</a>
+            <a class="btn btn-success mt-2">Call Us Now</a>
+          </div>
+          <div class="col-md-5" data-aos="fade-left" data-aos-duration="500">
+            <div class="shadow p-1">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1012.0653459997279!2d73.13995823016091!3d31.43703208910624!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922692f85ee0d65%3A0x417e0c35763c5e7c!2sWhites%20Castle%20Eden%20Garden!5e0!3m2!1sen!2s!4v1649767178461!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          </div>
+        </div>
+    
+        <hr class="featurette-divider">
+    
+    
+        <div class="row featurette" id="gm-abad">
+          <div class="col-md-7 order-md-2 pt-lg-5" data-aos="fade-left" data-aos-duration="500">
+            <h2 class="featurette-heading mt-5"><span class="text-muted">Whites Castle</span> GM Abad</h2>
+            <p class="lead">Narwala Road near Qabaristan Moor.</p>
+            <a href="tel:+9241111606060" class="btn btn-success mt-2">Call Us Now</a>
+            <a class="btn btn-success mt-2">Call Us Now</a>
+            <!-- We provide following services with check marks -->
+           
+                <ul class="list-unstyled p-4">
+                  <li>
+                    <i class="fas fa-lg text-success fa-check"></i>
+                    <!-- underline text -->
+                    <span class="text-muted">24/7 Customer Service</span>
+                    <span>Dine In</span>
+                  </li>
+                  <li>
+                    <i class="fas fa-lg text-success fa-check"></i>
+                    <span>Outdoor Dining</span>
+                  </li>
+                  <li>
+                    <i class="fas fa-lg text-success fa-check"></i>
+                    <span>Take Away</span>
+                  </li>
+                  </ul>
+          </div>
+          <div class="col-md-5" data-aos="fade-right" data-aos-duration="500">
+            <div class="shadow order-md-1 p-1">
+              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3404.4021148389775!2d73.05547901473808!3d31.43059495871519!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3922439b097a319d%3A0x86ead0e1f82abba9!2sWhites%20Castle%20GM%20Abad!5e0!3m2!1sen!2s!4v1649767235809!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+          </div>
+          </div>
+        </div>
+    
+    
+        <hr class="featurette-divider">
+    
+        <!-- /END THE FEATURETTES -->
+    
+      </div><!-- /.container -->
+    
+    
+      <!-- FOOTER -->
+      <footer class="container">
+        <p class="float-end"><a href="#">Back to top</a></p>
+        <p>© 2017–2021 Company, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+      </footer>
+    </main>
+  </body>
+  <script src="cart.js"></script>
+  <script>
+    function myScript() {
+      // displayMenu(menu);
+      AOS.init();
+loadCartItems();
+
+    }
+    
+  
+  </script>
+</html>
