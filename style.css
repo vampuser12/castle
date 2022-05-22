@@ -1,4 +1,4 @@
-n@charset "UTF-8"; /*!
+@charset "UTF-8"; /*!
 /* Andy Bell's CSS reset */
 
 *,
@@ -201,7 +201,7 @@ html {
 .back-cover {
   height: 90vh !important;
   /* padding-top: 30px; */
-  background: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0,0,0,0.3), rgba(0, 0, 0, 0.9) ),url(Images/crunchy\ pasta.jpg) no-repeat center center fixed;
+  background: linear-gradient( rgba(0, 0, 0, 0.9), rgba(0,0,0,0.3), rgba(0, 0, 0, 0.9) ),url(https://vampuser12.github.io/castle/images/menu/crunchy-pasta.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -503,6 +503,9 @@ html {
   color: var(--indigo-dark) !important;
 }
 
+.ratio-4x3{
+  aspect-ratio: 1.5;
+}
 
 .ratio-3x2 {
   --bs-aspect-ratio: calc(3 / 2 * 100%);

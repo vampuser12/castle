@@ -285,10 +285,10 @@
         str +=
           '<div class="col"><div class="card border-secondary h-100 shadow rounded-3 overflow-hidden bg-white" id="Item-' +
           item.ItemID +
-          '"><img class="card-img-top" width="100%" src="' +
+          '"><img class="card-img-top ratio-4x3" src="' +
           (item.ImageURL == "URL"
             ? "https://upload.wikimedia.org/wikipedia/commons/d/de/Aspect_ratio_-_3x2.svg"
-            : item.ImageURL) +
+            : servers.images + item.ImageURL) +
           '" alt=""><h6 class="card-header bg-white">' +
           item.Name +
           '</h6><div class="card-body h-auto py-0"><div class="w-100 text-end mt-1 card-text"><i>PKR ' +
