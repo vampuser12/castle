@@ -1,0 +1,183 @@
+<html>
+<head></head>    
+<body>
+    <div class="receipt">
+        
+    </div>
+    </body>
+<script>
+    //get receipt id from url after #
+    var url = window.location.href;
+    var id = url.split('#')[1];
+    //get receipt from database
+    fetch(
+        'https://black-cottage.herokuapp.com/api/orders/' + id,
+        {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+    ).then(function(response) {
+        if (response.status !== 200) {
+                  response.text().then((res) => console.log(res));
+                  return;
+                }
+        return response.json();
+    }).then(function (data) {
+                console.log(data);
+                //show orders
+                var orders = document.getElementsByClassName("receipt")[0];
+                var listdata = "";
+                // for (var i = 0; i < data.length; i++) {
+                  var order = data;
+                  console.log(order);
+
+                  //get order status
+                  let status = "Pending";
+                  if (order.Cancelled) {
+                    status = "Cancelled";
+                  } else if (order.OrderDelivered) status = "Finished";
+                  else if (order.RiderHandOver) status = "On The Way";
+                  else if (order.OrderReceived) status = "Preparing";
+
+                  listdata += `<div class="col-lg-4 order-${
+                    order.ID
+                  }"><div class="m-2 card ${
+                    status == "Finished"
+                      ? "border-success"
+                      : status == "On The Way"
+                      ? "border-warning"
+                      : status == "Preparing"
+                      ? "border-info"
+                      : status == "Cancelled"
+                      ? "border-danger"
+                      : "border-none"
+                  }">
+              <div class="card-header d-flex">
+                Order-
+                <strong class="">${order.ID}</strong>
+                <span class="ms-auto"> <strong>Status: </strong><select id="status${
+                  order.ID
+                }" onchange="changeOrderStatus(${order.ID})">
+                  <option ${
+                    status == "Pending" ? "selected" : ""
+                  } value="Pending">Pending</option>
+                  <option ${
+                    status == "Preparing" ? "selected" : ""
+                  } value="Preparing">Preparing</option>
+                  <option ${
+                    status == "On The Way" ? "selected" : ""
+                  } value="On The Way">On The Way</option>
+                  <option ${
+                    status == "Finished" ? "selected" : ""
+                  } value="Finished">Finished</option>
+                  <option ${
+                    status == "Cancelled" ? "selected" : ""
+                  } value="Cancelled">Cancelled</option>
+                  </select></span>
+              </div>
+              <div class="card-body">
+                <div class="">
+                  <div>
+                    <strong>${order.CustomerName}</strong>
+                  </div>
+                  <div>${order.DeliveryAddress}</div>
+                  <div>${order.Note}</div>
+                  <!-- <div>Email: info@webz.com.pl</div> -->
+                  <div>${order.CustomerPhone}</div>
+                </div><div class="table-responsive-sm">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Options</th>
+
+                        <th class="right">Unit Cost</th>
+                        <th class="center">Qty</th>
+                        <th class="right">Total</th>
+                      </tr>
+                    </thead><tbody>`;
+                  //iterate through order items
+                  for (var j = 0; j < order.Items.length; j++) {
+                    var item = order.Items[j];
+                    const itemPrice =
+                      item.Price +
+                      item.Choices.reduce(function (acc, cur) {
+                        return acc + cur.OptionPrice;
+                      }, 0);
+                    listdata += `
+                      <tr>
+                        <td class="left strong">${item.Name}</td>
+                        <td class="left">${item.Choices.reduce(
+                          //get OptionNames
+                          function (acc, cur) {
+                            return acc + cur.OptionName + ", ";
+                          },
+                          ""
+                        )}</td>
+
+                        <td class="right">${
+                          //get price
+                          itemPrice
+                        }</td>
+                        <td class="center">${item.Quantity}</td>
+                        <td class="right">${
+                          //total price
+                          itemPrice * item.Quantity
+                        }</td>
+                      </tr>`;
+                  }
+
+                  listdata += `
+                    </tbody>
+                  </table>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 col-sm-5"></div>
+
+                  <div class="col-lg-4 col-sm-5 ml-auto">
+                    <table class="table table-clear">
+                      <tbody>
+                        <tr>
+                          <td class="left">
+                            <strong>Subtotal</strong>
+                          </td>
+                          <td class="right">${
+                            order.DiscountedAmount + " PKR"
+                          }</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>`;
+                  // var orderDiv = document.createElement("div");
+                  // orderDiv.className = "order";
+                  // //show order in bootstrap card
+                  // var card = document.createElement("div");
+                  // card.className = "card";
+                  // var cardBody = document.createElement("div");
+                  // cardBody.className = "card-body";
+                  // card.appendChild(cardBody);
+                  // var cardTitle = document.createElement("h5");
+                  // cardTitle.className = "card-title";
+                  // cardTitle.innerHTML = order.ID;
+                  // cardBody.appendChild(cardTitle);
+                  // var cardText = document.createElement("p");
+                  // cardText.className = "card-text";
+                  // cardText.innerHTML = order.CustomerName;
+                  // cardBody.appendChild(cardText);
+                  // var cardText2 = document.createElement("p");
+                  // cardText2.className = "card-text";
+                  // cardText2.innerHTML = order.CustomerPhones;
+                  // cardBody.appendChild(cardText2);
+
+                  // orders.appendChild(card);
+                
+                orders.innerHTML = listdata;
+              });
+</script>
+</html>

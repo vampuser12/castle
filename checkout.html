@@ -27,6 +27,29 @@
     <link rel="stylesheet" href="style.css" />
     <script src="script.js"></script>
     <title>Whites Castle</title>
+    <style>
+      .grey-screen{
+        /* background-color: gold; */
+        /* gradient background */
+        background: linear-gradient(to right, #000000ee, #303030aa);
+        height: 100vh;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+      .screen-panel{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        text-align: center;
+        font-size: 2rem;
+        color: white;
+        font-weight: bold;
+      }
+    </style>
   </head>
   <body onload="myScript()" style="padding-top: 5em">
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
@@ -388,6 +411,17 @@
         </div>
       </form>
     </div>
+    <div class="grey-screen" style="display: none;">
+      <div class="screen-panel"> 
+        Your order has been placed with Order ID <span class="order-id">??</span>
+        <div class="buttons">
+          <button class="btn btn-danger btn-lg"><b>Go Home</b></button>
+          <button class="btn btn-primary btn-lg"><b>Order Receipt</b></button>
+
+        </div>
+       </div>
+
+    </div>
     <div id="toast">
       <div id="img">Icon</div>
       <div id="desc">A notification message..</div>
@@ -668,7 +702,25 @@
         body: formBody
       }).then(res => {
         return res.json();
-      }).then(data=>{console.log(data); order_button.innerHTML="<b>Place Order</b>";  launch_toast("Order has been places"); clearCart();}).catch(err=>{console.log(err); order_button.innerHTML="<b>Place Order</b>"});
+      }).then(data=>{console.log(data); order_button.innerHTML="<b>Place Order</b>";  launch_toast("Order has been placed"); clearCart();
+    
+      //show grey scree with two buttons
+      //1. go to home page
+      //2. go to order history
+      
+      const grey_screen = document.getElementsByClassName('grey-screen')[0];
+      grey_screen.style.display = 'block';
+      grey_screen.innerHTML = `
+      <div class="screen-panel"> 
+        Your order has been placed with Order ID ${data.ID}
+        <div class="buttons">
+          <a href="index.html" class="btn btn-danger btn-lg"><b>Go Home</b></a>
+          <a href="receipt#${data.ID}" class="btn btn-primary btn-lg"><b>Order Receipt</b></a>
+        </div>
+       </div>
+      `;
+
+    }).catch(err=>{console.log(err); order_button.innerHTML="<b>Place Order</b>"});
 
 
       // console.log(form_obj);
