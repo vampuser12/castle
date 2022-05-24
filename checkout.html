@@ -702,7 +702,10 @@
         body: formBody
       }).then(res => {
         return res.json();
-      }).then(data=>{console.log(data); order_button.innerHTML="<b>Place Order</b>";  launch_toast("Order has been placed"); clearCart();
+      }).then(data=>{console.log(data); order_button.innerHTML="<b>Place Order</b>";  launch_toast(
+      //check mark
+      "✔"  
+      ,"Order has been placed"); clearCart();
     
       //show grey scree with two buttons
       //1. go to home page
@@ -715,11 +718,10 @@
         Your order has been placed with Order ID ${data.ID}
         <div class="buttons">
           <a href="index.html" class="btn btn-danger btn-lg"><b>Go Home</b></a>
-          <a href="receipt#${data.ID}" class="btn btn-primary btn-lg"><b>Order Receipt</b></a>
+          <a href="receipt.html#${data.ID}" class="btn btn-primary btn-lg"><b>Order Receipt</b></a>
         </div>
        </div>
       `;
-
     }).catch(err=>{console.log(err); order_button.innerHTML="<b>Place Order</b>"});
 
 
