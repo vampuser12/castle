@@ -210,14 +210,14 @@
                   let status = "Pending";
                   if (order.Cancelled) {
                     status = "Cancelled";
-                  } else if (order.OrderDelivered) status = "Finished";
+                  } else if (order.OrderDelivered) status = "Delivered";
                   else if (order.RiderHandOver) status = "On The Way";
                   else if (order.OrderReceived) status = "Preparing";
 
                   listdata += `<div class="col-lg-4 order-${
                     order.ID
                   }"><div class="m-2 card ${
-                    status == "Finished"
+                    status == "Delivered"
                       ? "border-success"
                       : status == "On The Way"
                       ? "border-warning"
@@ -243,8 +243,8 @@
                     status == "On The Way" ? "selected" : ""
                   } value="On The Way">On The Way</option>
                   <option ${
-                    status == "Finished" ? "selected" : ""
-                  } value="Finished">Finished</option>
+                    status == "Delivered" ? "selected" : ""
+                  } value="Delivered">Delivered</option>
                   <option ${
                     status == "Cancelled" ? "selected" : ""
                   } value="Cancelled">Cancelled</option>
@@ -387,7 +387,7 @@
           var card = document.getElementsByClassName("order-" + orderID)[0]
             .children[0];
           card.className = `m-2 card ${
-            status == "Finished"
+            status == "Delivered"
               ? "border-success"
               : status == "On The Way"
               ? "border-warning"

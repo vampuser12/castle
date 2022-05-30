@@ -158,7 +158,7 @@
               <a class="nav-link" href="branches.html">Branches</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="catering.html">Catering</a>
+              <a class="nav-link" href="order.html">My Order</a>
             </li>
           </ul>
           <span class="navbar-text"> </span>
@@ -383,7 +383,6 @@
                 type="text"
                 id="Note"
                 name="Note"
-                required
                 style="resize: none"
               ></textarea>
             </div>
@@ -413,7 +412,7 @@
     </div>
     <div class="grey-screen" style="display: none;">
       <div class="screen-panel"> 
-        Your order has been placed with Order ID <span class="order-id">??</span>
+        Your order has been placed with Reference ID <span class="ref-id">??</span>
         <div class="buttons">
           <button class="btn btn-danger btn-lg"><b>Go Home</b></button>
           <button class="btn btn-primary btn-lg"><b>Order Receipt</b></button>
@@ -715,10 +714,10 @@
       grey_screen.style.display = 'block';
       grey_screen.innerHTML = `
       <div class="screen-panel"> 
-        Your order has been placed with Order ID ${data.ID}
+        Your order has been placed with Reference ID ${data.RefID}
         <div class="buttons">
           <a href="index.html" class="btn btn-danger btn-lg"><b>Go Home</b></a>
-          <a href="receipt.html#${data.ID}" class="btn btn-primary btn-lg"><b>Order Receipt</b></a>
+          <a href="receipt.html#${data.RefID}" class="btn btn-primary btn-lg"><b>Order Receipt</b></a>
         </div>
        </div>
       `;

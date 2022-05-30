@@ -30,7 +30,7 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="w-100 d-flex">Order #<span id="Order-ID"></span>
+                <h3 class="w-100 d-flex">Ref# <span class="ms-1" id="Ref-ID"></span>
                     <span class="ms-auto fs-5" id="status">....</span></h3>
               </div>
               <div class="card-body">
@@ -56,6 +56,12 @@
                         </div>
                   </div>
               </div>
+
+              <hr>
+              <!-- order note text -->
+              <p class="text" id="order-note">
+                Receipt is loading currently.
+              </p>
             </div>
           </div>
         </div>
@@ -65,8 +71,9 @@
     //get receipt id from url after #
     var url = window.location.href;
     var id = url.split("#")[1];
+    console.log(id);
     //get receipt from database
-    fetch("https://black-cottage.herokuapp.com/api/orders/" + id, {
+    fetch("https://black-cottage.herokuapp.com/api/orders/ref/" + id, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -80,19 +87,17 @@
         return response.json();
       })
       .then(function (data) {
-        console.log(data);
         //show orders
         var listdata = "";
         // for (var i = 0; i < data.length; i++) {
         var order = data;
-        console.log(order);
-        document.getElementById("Order-ID").innerHTML = order.ID;
+        document.getElementById("Ref-ID").innerHTML = order.RefID;
 
         //get order status
         let status = "Pending";
         if (order.Cancelled) {
           status = "Cancelled";
-        } else if (order.OrderDelivered) status = "Finished";
+        } else if (order.OrderDelivered) status = "Delivered";
         else if (order.RiderHandOver) status = "On The Way";
         else if (order.OrderReceived) status = "Preparing";
 
@@ -151,7 +156,48 @@
           document.getElementsByClassName("total-cart-price");
         for (let element of price_elements) element.innerHTML = total;
 
+        document.getElementById("order-note").innerHTML = order.Note;
+
         document.getElementById("receipt").innerHTML = order_str;
+
+        //auto reload page after 30 seconds
+      const intervalHandler = setInterval(function () {
+        // get order status
+          fetch("https://black-cottage.herokuapp.com/api/orders/orderstatus/" + id, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (response) {
+              if (response.status !== 200) {
+                response.text().then((res) => console.log(res));
+                return;
+              }
+              return response.json();
+            })
+            .then(function (data) {
+              let order_data = data;
+              //get order_data status
+              let status = "Pending";
+              if (order_data.Cancelled) {
+                status = "Cancelled";
+              } else if (order_data.OrderDelivered) status = "Delivered";
+              else if (order_data.RiderHandOver) status = "On The Way";
+              else if (order_data.OrderReceived) status = "Preparing";
+              document.getElementById("status").innerHTML = status;
+              if(status=='Delivered' || status== 'Cancelled'){
+                clearInterval(intervalHandler);
+              }
+              
+              if(order_data.DiscountedAmount != total)
+                {
+                  //reload page
+                  location.reload();
+                }
+
+        })}, 30000);
       });
+      
   </script>
 </html>

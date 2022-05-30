@@ -127,7 +127,7 @@
               <a class="nav-link" href="branches.html">Branches</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="catering.html">Catering</a>
+              <a class="nav-link" href="order.html">My Order</a>
             </li>
           </ul>
           <span class="navbar-text"> </span>
@@ -205,9 +205,9 @@
             );
             return;
           }
-          else //go to orders.html
+          else //go to orders_history.html
           {
-            window.location.href = "orders.html";
+            window.location.href = "orders_history.html";
           }
 
         }
@@ -267,8 +267,8 @@
         if (res.status == 200)
         res.text().then(text => {
           localStorage.setItem("token", text);
-          //goto orders.html
-          window.location.href = "orders.html";
+          //goto orders_history.html
+          window.location.href = "orders_history.html";
         });
         
          else {

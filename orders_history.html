@@ -26,8 +26,6 @@
     ></script>
     
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css"></script>
     <script src="script.js"></script>
     <title>Whites Castle</title>
   </head>
@@ -116,14 +114,17 @@
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="index.html">Home</a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link active" href="menu.html">Menu</a>
+              <a class="nav-link" href="menu.html">Menu</a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="branches.html">Branches</a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" href="catering.html">Catering</a>
+              <a class="nav-link" href="order.html">My Order</a>
             </li>
           </ul>
           <span class="navbar-text"> </span>
@@ -134,26 +135,136 @@
     <div class="main nav-scroller">
       <!-- show multiple receipt page -->
       <!-- demo order card -->
-      <div class="container-fluid px-3">
+      <div class="container">
         <div class="row orders">
-          <table id="table_id" class="display">
+          <!-- Search bar -->
+            <div class="col-lg-9 col-md-6 col-12 d-flex">
+              <!-- Show entries  -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-default">
+                    Show
+                  </span>
+                </div>
+                <select
+                  class="bg-white rounded ps-1 pe-1"
+                  id="inputGroupSelect01"
+                  aria-label="Default select example"
+                  onchange="changeLimit(this.value)"
+                >
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <div class="input-group-append">
+                  <span class="input-group-text" id="inputGroup-sizing-default">
+                    entries
+                  </span>
+                </div>
+
+                <!-- new order button in same line -->
+                <!-- blinking button -->
+
+
+                <div id="new-order-btn" class="input-group-append" style="flex-grow: 2; display: none;">
+                  <a href="orders_history.html"
+                    class="btn btn-danger btn-flashing w-100"
+                    onclick="newOrder()"
+                  >
+                    New Order
+                  </a>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-12">
+              
+            <div class="input-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search"
+                aria-label="Recipient's username"
+                aria-describedby="basic-addon2" 
+                id="search-input"
+                onkeydown="searchOrder()"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary"
+                  type="button"
+                  id="button-addon2"
+                  onclick="searchOrder('')"
+                >
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+              
+            </div>
+
+          </div>
+            <div class="table-responsive">
+              
+          <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>Column 1</th>
-                    <th>Column 2</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Receipt</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Row 1 Data 1</td>
-                    <td>Row 1 Data 2</td>
-                </tr>
-                <tr>
-                    <td>Row 2 Data 1</td>
-                    <td>Row 2 Data 2</td>
-                </tr>
+            <tbody id="table-orders">
+
+              <tr class="flex">
+                <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                
+              </td>
+              <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                </td>
+                <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                
+              </td>
+              <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                </td>
+                <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                
+              </td>
+              <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                </td>
+                <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                
+              </td>
+              <td>
+                <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                </td>
+              </tr>
+                      
             </tbody>
         </table>
+
+        <!-- list page numbers  -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center" id="page-numbers">
+            <!-- selected page -->
+
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+          </ul>
+
+      </div>
         </div>
       </div>
     </div>
@@ -167,6 +278,32 @@
   <script>
     "use strict";
 
+    // get page and limit number from href attribute
+    let parameters = window.location.href.split("?")[1];
+    let page = 0;
+    let limit = 10;
+
+    let count = 0;
+
+    try{
+      page = parseInt(parameters.split("&")[0].split("=")[1]) -1 ;
+    }
+    catch(err){
+      page = 0;
+    }
+    try{
+      limit = parseInt(parameters.split("&")[1].split("=")[1]);
+    }
+    catch(err){
+      limit = 10;
+    }
+    
+    if(limit!=10){
+      document.getElementById("inputGroupSelect01").value = limit;
+    }
+    
+
+
     // const categoryIDs={
     //     "Special Pizza": 1,
     //     "Traditional Pizza": 2,
@@ -177,6 +314,20 @@
     //     "Deals": 7
     //   }
 
+    function searchOrder(){
+      var searchValue = document.getElementById("search-input").value;
+        var table = document.getElementById("table-orders");
+        var rowCount = table.rows.length;
+        for (var i = 0; i < rowCount; i++) {
+            var row = table.rows[i];
+            var text = row.innerText;
+            if (text.toLowerCase().indexOf(searchValue.toLowerCase()) > -1) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        }
+    }
     function myScript() {
       //fetch login status
       fetch("https://black-cottage.herokuapp.com/api/loginstatus", {
@@ -206,7 +357,7 @@
               console.log(res);
             });
             //get orders
-            fetch("https://black-cottage.herokuapp.com/api/orders/AllOrders", {
+            fetch("https://black-cottage.herokuapp.com/api/orders/page/"+page+'/'+limit, {
               headers: {
                 Authorization: "Bearer " + localStorage.getItem("token"),
               },
@@ -221,6 +372,7 @@
               })
               .then(function (data) {
                 console.log(data);
+                let data_table = '';
                 //show orders
                 var orders = document.getElementsByClassName("orders")[0];
                 var listdata = "";
@@ -232,19 +384,70 @@
                   let status = "Pending";
                   if (order.Cancelled) {
                     status = "Cancelled";
-                  } else if (order.OrderDelivered) status = "Finished";
+                  } else if (order.OrderDelivered) status = "Delivered";
                   else if (order.RiderHandOver) status = "On The Way";
                   else if (order.OrderReceived) status = "Preparing";
+
+                  data_table += `<tr>
+                            <th class="scope="row">${order.ID}</th>
+                            <td>${
+                              //format date and time
+                              order.Created.split("T")[0]+
+                              " " + order.Created.split("T")[1].split(".")[0]
+
+                            }</td>
+                            <td>${order.CustomerPhone}</td>
+                            <td>${order.CustomerName}</td>
+                            <td>${order.DeliveryAddress}</td>
+                            <td>${order.DiscountedAmount}</td>
+                            <td id="status-${order.ID}">${status=='Cancelled'? "Cancelled":
+                              status=='Delivered' ? 'Delivered':
+                              `<select class="${
+                              status == "Delivered" ? "bg-success" :
+                              status == "Cancelled" ? "bg-danger" :
+                              status == "On The Way" ? "bg-warning" :
+                              status == "Preparing" ? "bg-primary" :
+                              status == "Pending" ? "bg-secondary" :
+                              "bg-dark"
+
+                            } text-white fw-bold p-1 rounded" id="status${
+                  order.ID
+                }" onchange="changeOrderStatus(${order.ID})">
+                  <option ${
+                    status == "Pending" ? "selected" : ""
+                  } value="Pending">Pending</option>
+                  <option ${
+                    status == "Preparing" ? "selected" : ""
+                  } value="Preparing">Preparing</option>
+                  <option ${
+                    status == "On The Way" ? "selected" : ""
+                  } value="On The Way">On The Way</option>
+                  <option ${
+                    status == "Delivered" ? "selected" : ""
+                  } value="Delivered">Delivered</option>
+                  <option ${
+                    status == "Cancelled" ? "selected" : ""
+                  } value="Cancelled">Cancelled</option>
+                  </select>`
+                            }</td>
+                            <td>
+
+                                <a class="btn btn-primary w-100" href="receipt.html#${order.RefID}" target="_blank">${order.RefID}</a>
+                            </td>
+                        </tr>`;
+                  // data_array.push(order.ID, order.CustomerPhone,
+                  //  order.CustomerName, order.OrderDate,
+                  //  status, order.TotalPrice, order.DeliveryAddress);
 
                   listdata += `<div class="col-lg-4 order-${
                     order.ID
                   }"><div class="m-2 card ${
-                    status == "Finished"
+                    status == "Delivered"
                       ? "border-success"
                       : status == "On The Way"
                       ? "border-warning"
                       : status == "Preparing"
-                      ? "border-info"
+                      ? "border-primary"
                       : status == "Cancelled"
                       ? "border-danger"
                       : "border-none"
@@ -265,8 +468,8 @@
                     status == "On The Way" ? "selected" : ""
                   } value="On The Way">On The Way</option>
                   <option ${
-                    status == "Finished" ? "selected" : ""
-                  } value="Finished">Finished</option>
+                    status == "Delivered" ? "selected" : ""
+                  } value="Delivered">Delivered</option>
                   <option ${
                     status == "Cancelled" ? "selected" : ""
                   } value="Cancelled">Cancelled</option>
@@ -372,7 +575,8 @@
 
                   // orders.appendChild(card);
                 }
-                orders.innerHTML = listdata;
+                // orders.innerHTML = listdata;
+                document.getElementById("table-orders").innerHTML = data_table;
               });
           }
         }
@@ -405,24 +609,127 @@
             console.log(text);
           });
         } else {
-          //change order card header color
-          var card = document.getElementsByClassName("order-" + orderID)[0]
-            .children[0];
-          card.className = `m-2 card ${
-            status == "Finished"
-              ? "border-success"
-              : status == "On The Way"
-              ? "border-warning"
-              : status == "Preparing"
-              ? "border-info"
-              : status == "Cancelled"
-              ? "border-danger"
-              : "border-none"
-          }`;
+          //change order status in table
+          var status_DOM = document.getElementById("status-" + orderID);
+          status_DOM.innerHTML = `${status=='Cancelled'? "Cancelled":
+                              status=='Delivered' ? 'Delivered':
+                              `<select class="${
+                              status == "Delivered" ? "bg-success" :
+                              status == "Cancelled" ? "bg-danger" :
+                              status == "On The Way" ? "bg-warning" :
+                              status == "Preparing" ? "bg-primary" :
+                              status == "Pending" ? "bg-secondary" :
+                              "bg-dark"
+
+                            }  text-white fw-bold p-1 rounded" id="status${
+                  orderID
+                }" onchange="changeOrderStatus(${orderID})">
+                  <option ${
+                    status == "Pending" ? "selected" : ""
+                  } value="Pending">Pending</option>
+                  <option ${
+                    status == "Preparing" ? "selected" : ""
+                  } value="Preparing">Preparing</option>
+                  <option ${
+                    status == "On The Way" ? "selected" : ""
+                  } value="On The Way">On The Way</option>
+                  <option ${
+                    status == "Delivered" ? "selected" : ""
+                  } value="Delivered">Delivered</option>
+                  <option ${
+                    status == "Cancelled" ? "selected" : ""
+                  } value="Cancelled">Cancelled</option>
+                  </select>`
+                            }`;
+          
         }
 
         // return response.json();
       });
+    
+    }
+    function showOrder(orderID){
+      //open recept page on new tab 
+
+      window.open("receipt.html#"+orderID);
+
+
+    }
+    fetch(
+      servers.api + '/orders/OrdersCount',
+      {
+        headers: {
+          //token
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      }
+    ).then(function (response) {
+      if (response.status !== 200) {
+        response.text().then(function (text) {
+          console.log(text);
+        });
+      } else {
+        response.json().then(function (data) {
+          //set page numbers 
+          count = data.count;
+          var pages = Math.ceil(data.count / limit);
+          var page_numbers = "";
+          for (var i = 1; i <= pages; i++) {
+            page_numbers += `<li class="page-item ${i-1==page? "active" : ""}"><a class="page-link" href="#" onclick="changePage(${i})">${i}</a></li>`;
+          }
+          document.getElementById("page-numbers").innerHTML = page_numbers;
+
+          console.log(data);
+
+          // document.getElementById("orders-count").innerHTML = data;
+          
+        });
+      }
+    });
+
+    //keep fetching order count after 30 seconds
+    setInterval(function () {
+      fetch(
+        servers.api + '/orders/OrdersCount',
+        {
+          headers: {
+            //token
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
+        }
+      ).then(function (response) {
+        if (response.status !== 200) {
+          response.text().then(function (text) {
+            console.log(text);
+          });
+        } else {
+          response.json().then(function (data) {
+            console.log(data);
+            if(count!=0 && count != data.count)
+            //show new order button
+            document.getElementById("new-order-btn").style.display = "block";
+            
+            // document.getElementById("orders-count").innerHTML = data;
+            
+          });
+        }
+      });
+    }, 30000);
+
+    function changeLimit(limit){
+      //change limit parameter in url
+      var url = new URL(window.location.href);
+      url.searchParams.set("page", 1);
+      url.searchParams.set("limit", limit);
+      window.location.href = url;      
+    }
+
+    function changePage(page){
+      //change page parameter in url
+      var url = new URL(window.location.href);
+      url.searchParams.set("page", page);
+      url.searchParams.set("limit", limit);
+      window.location.href = url;
     }
   </script>
 </html>

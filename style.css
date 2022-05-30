@@ -510,3 +510,31 @@ html {
 .ratio-3x2 {
   --bs-aspect-ratio: calc(3 / 2 * 100%);
 }
+
+
+.btn-flashing{
+  animation: flash 1.2s infinite;
+  font-weight: bold;
+  color: var(--light);
+}
+
+@keyframes flash {
+  0% {
+    opacity: 1;
+    background: var(--danger);
+    border: var(--danger);
+    box-shadow: 0 2px 2px 0  var(--danger);
+  }
+  50% {
+    opacity: 1;
+    background: gold;
+    border: yellow;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 255, 0.5);
+  }
+  100% {
+    opacity: 1;
+    background: var(--danger);
+    border: var(--danger);
+    box-shadow: 0 2px 2px 0  var(--danger);
+  }
+}
