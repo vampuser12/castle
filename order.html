@@ -32,7 +32,7 @@
   <body onload="myScript()" style="padding-top: 5em">
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand ms-5 fw-bold fs-3" href="#">Whites Castle</a>
+        <a class="navbar-brand ms-5 fw-bold fs-3" href="index.html">Whites Castle</a>
         <div class="d-flex">
           <a
             href="cart.html"
@@ -241,12 +241,16 @@
                     status = "Cancelled";
                   } else if (order.OrderDelivered) status = "Delivered";
                   else if (order.RiderHandOver) status = "On The Way";
-                  else if (order.OrderReceived) status = "Preparing";
+                  else if (order.OrderPreparing) status = "Preparing";
+                  else if (order.OrderReceived) status = "Picked";
           
           let html = '';
           switch(status){
             case "Pending":
-              html += `<p class="text text-success">Your Order# ${order.RefID} is pending, <a href="receipt.html#${order.RefID}">View Receipt</a></p>`;
+              html += `<p class="text text-secondary">Your Order# ${order.RefID} is pending, <a href="receipt.html#${order.RefID}">View Receipt</a></p>`;
+              break;
+            case "Pending":
+              html += `<p class="text text-success">Your Order# ${order.RefID} is picked, <a href="receipt.html#${order.RefID}">View Receipt</a></p>`;
               break;
             case "Cancelled":
               html += `<p class="text text-danger">Your Order# ${order.RefID} is cancelled, <a href="receipt.html#${order.RefID}">View Receipt</a></p>`;

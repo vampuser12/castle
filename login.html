@@ -189,8 +189,6 @@
       //fetch login status
       if(localStorage.getItem("token")!==undefined){
         //fetch using header token
-
-
         fetch("https://black-cottage.herokuapp.com/api/loginstatus",
           {
             headers: {
@@ -199,23 +197,20 @@
           }).then(
         function(response) {
           if (response.status !== 200) {
-            console.log(
-              "Looks like there was a problem. Status Code: " +
-                response.status
-            );
-            return;
+            throw new Error("Status Code: " +
+                response.status);
           }
-          else //go to orders_history.html
-          {
+            return response.json();
+        
+
+        }).then(data=>{
+          console.log(data);
+          if(data.Type == 1 || data.Type == 11){
             window.location.href = "orders_history.html";
           }
-
-        }
-
-
-          // Examine the text in the response
-      )
-
+        }).catch(error=>{
+          console.log(error);
+        });
       }
 
       
@@ -242,7 +237,7 @@
       if (!phoneRegex.test(phone)) {
         //if phone is not valid
         //show error
-        launch_toast("X", "Phone number is not valid");
+        launch_toast("✘", "Phone number is not valid");
       } else {
         //if phone is valid
         //check password using regex
@@ -250,7 +245,7 @@
         if (password.length<7) {
           //if password is not valid
           //show error
-          launch_toast("X", "Password is not valid");
+          launch_toast("✘", "Password is not valid");
         } else {
           //if password is valid
           //send login data to server
@@ -265,21 +260,30 @@
       }).then(res => {
         //if login success
         if (res.status == 200)
-        res.text().then(text => {
-          localStorage.setItem("token", text);
-          //goto orders_history.html
-          window.location.href = "orders_history.html";
+        res.json().then(data => {
+          const user = data.User;
+          if(user.Type != 11 && user.Type != 1){
+            //Unauthorized
+            launch_toast("✘", "You are not authorized.");
+            return;
+          }
+          localStorage.setItem("token", data.TOKEN);
+          setTimeout(function () {
+            window.location.href = "orders_history.html";
+          }, 1000);
+          launch_toast("✔", "Logged in successfully");
+          
         });
         
          else {
           //if login failed
           //show error
-          launch_toast("X", "Incorrect username or password");
+          launch_toast("✘", "Incorrect username or password");
           res.text().then(text => {
             console.log(text);
           });
         }
-      }).catch(err=>{console.log(err); launch_toast("X", "Incorrect username or password");});
+      }).catch(err=>{console.log(err); launch_toast("✘", "Incorrect username or password");});
 
           //show loading
           launch_toast("=", "Loggin in...");

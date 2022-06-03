@@ -99,7 +99,8 @@
           status = "Cancelled";
         } else if (order.OrderDelivered) status = "Delivered";
         else if (order.RiderHandOver) status = "On The Way";
-        else if (order.OrderReceived) status = "Preparing";
+                  else if (order.OrderPreparing) status = "Preparing";
+                  else if (order.OrderReceived) status = "Picked";
 
         document.getElementById("status").innerHTML = status;
         document.getElementById("customer-information").innerHTML =
@@ -184,7 +185,8 @@
                 status = "Cancelled";
               } else if (order_data.OrderDelivered) status = "Delivered";
               else if (order_data.RiderHandOver) status = "On The Way";
-              else if (order_data.OrderReceived) status = "Preparing";
+                  else if (order.OrderPreparing) status = "Preparing";
+                  else if (order.OrderReceived) status = "Picked";
               document.getElementById("status").innerHTML = status;
               if(status=='Delivered' || status== 'Cancelled'){
                 clearInterval(intervalHandler);

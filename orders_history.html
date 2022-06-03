@@ -32,7 +32,10 @@
   <body onload="myScript()" style="padding-top: 5em">
     <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
       <div class="container-fluid">
-        <a class="navbar-brand ms-5 fw-bold fs-3" href="#">Whites Castle</a>
+        <a class="navbar-brand ms-5 fw-bold fs-3" href="index.html">White's Castle
+          <!-- logo -->
+          <img src="https://vampuser12.github.io/castle/images/logo/whites-castle-256.png" width="48" alt="logo" class="img-fluid d-inline" />
+        </a>
         <div class="d-flex">
           <a
             href="cart.html"
@@ -208,14 +211,16 @@
           <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
                     <th scope="col">Time</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">RefID</th>
+                    <th scope="col">Customer</th>
                     <th scope="col">Address</th>
-                    <th scope="col">Price</th>
+                    <th scope="col">Phone</th>
+                    <th scope="col">⅀</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Branch</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Receipt</th>
+                    <th scope="col">Show</th>
                 </tr>
             </thead>
             <tbody id="table-orders">
@@ -269,6 +274,28 @@
       </div>
     </div>
 
+  <div class="modal fade" id="confirmation-modal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-modal="true"
+      role="dialog">
+      <div class="modal-dialog modal-sm" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="confirmation-title">Modal title</h5>
+                  <!-- <button type="button" id="confi" class="close" aria-label="Close" onclick="closeModal()">
+                      <span aria-hidden="true">&times;</span>
+                  </button> -->
+              </div>
+              <div class="modal-body" id="confirmation-body">
+                  ...
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="confirmation-positive">Yes</button>
+                  <button type="button" class="btn btn-secondary" id="confirmation-negative">No</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="modal-backdrop fade show" id="backdrop" style="display: none;"></div>
+
     <div id="toast">
       <div id="img">Icon</div>
       <div id="desc">A notification message..</div>
@@ -277,6 +304,47 @@
   <script src="cart.js"></script>
   <script>
     "use strict";
+
+    const cModal = document.getElementById("confirmation-modal");
+    const cTitle = document.getElementById("confirmation-title");
+    const cBody = document.getElementById("confirmation-body");
+    const cNegative = document.getElementById("confirmation-negative");
+    const cPostive = document.getElementById("confirmation-positive");
+    const backdrop = document.getElementById("backdrop");
+
+    function openModal() {
+    }
+    function closeModal() {
+        backdrop.style.display = "none"
+        cModal.style.display = "none"
+        cModal.classList.remove("show")
+    }
+
+    
+    function confirmation(title, body, postive, negative) {
+      backdrop.style.display = "block"
+      cModal.style.display = "block"
+      cModal.classList.add("show")
+      
+      cTitle.innerHTML = title;
+      cBody.innerHTML = body;
+      cPostive.onclick = event=>{
+        postive();
+        closeModal();
+      } 
+      cNegative.onclick = event=>{
+        negative();
+        closeModal();
+      } 
+    }
+    const Outlets = {
+      "MB":{Name: " Main ", Color: "dd571c"},
+      "JC":{Name: "Jinnah", Color: "414243"}, 
+      "EG":{Name: " Eden ", Color: "213183"},
+      "GM":{Name: "GMabad",  Color: "218331"},
+      "MC":{Name: "Millat",  Color: "ec9060"}};
+    
+    
 
     // get page and limit number from href attribute
     let parameters = window.location.href.split("?")[1];
@@ -386,25 +454,42 @@
                     status = "Cancelled";
                   } else if (order.OrderDelivered) status = "Delivered";
                   else if (order.RiderHandOver) status = "On The Way";
-                  else if (order.OrderReceived) status = "Preparing";
+                  else if (order.OrderPreparing) status = "Preparing";
+                  else if (order.OrderReceived) status = "Picked";
+
+                  let outlet_html = '';
+                  if(order.Outlet){
+                    let outlet = Outlets[order.Outlet];
+                    outlet_html = `<span class="text-white fw-bold rounded py-1 px-2" style="background: #${outlet.Color};
+                    font-family: 'Roboto', sans-serif;
+                    ">${outlet.Name}</span>`;
+                  }
+                  else{
+                    outlet_html+= '<select onchange="selectOutlet('+order.ID+',this.value)" class="text-white fw-bold p-1 rounded bg-primary"><option selected disabled>---</option>';
+                    for(let o of Object.keys(Outlets)){
+                    // if(order.Outlet==Outlets[j]){
+                      outlet_html += `<option value="${o}">${Outlets[o].Name}</option>`;
+                    // }
+
+                  } 
+                  outlet_html += '</select>';
+                  }
 
                   data_table += `<tr>
-                            <th class="scope="row">${order.ID}</th>
-                            <td>${
-                              //format date and time
-                              order.Created.split("T")[0]+
-                              " " + order.Created.split("T")[1].split(".")[0]
-
-                            }</td>
-                            <td>${order.CustomerPhone}</td>
+                            <td>${order.Created.split("T")[0]+
+                              " " + order.Created.split("T")[1].split(".")[0]}</td>
+                            <td>${order.RefID}</td>
                             <td>${order.CustomerName}</td>
                             <td>${order.DeliveryAddress}</td>
+                            <td>${order.CustomerPhone}</td>
+                            <td><i>${order.Items.length}</i></td>
                             <td>${order.DiscountedAmount}</td>
-                            <td id="status-${order.ID}">${status=='Cancelled'? "Cancelled":
-                              status=='Delivered' ? 'Delivered':
+                            <td id="outlet-${order.ID}" class="text-center">${outlet_html}</td>
+                            <td id="status-${order.ID}">${
+                              status=='Cancelled' ? '<span class="bg-danger text-white fw-bold  rounded py-1 ps-3 pe-4">Cancelled</span>':
+                              status=='Delivered' ? '<span class="bg-success text-white fw-bold  rounded py-1 ps-3 pe-4">Delivered</span>':
                               `<select class="${
-                              status == "Delivered" ? "bg-success" :
-                              status == "Cancelled" ? "bg-danger" :
+                              status == "Picked" ? "bg-dark" :
                               status == "On The Way" ? "bg-warning" :
                               status == "Preparing" ? "bg-primary" :
                               status == "Pending" ? "bg-secondary" :
@@ -416,6 +501,9 @@
                   <option ${
                     status == "Pending" ? "selected" : ""
                   } value="Pending">Pending</option>
+                  <option ${
+                    status == "Picked" ? "selected" : ""
+                  } value="Picked">Picked</option>
                   <option ${
                     status == "Preparing" ? "selected" : ""
                   } value="Preparing">Preparing</option>
@@ -430,152 +518,15 @@
                   } value="Cancelled">Cancelled</option>
                   </select>`
                             }</td>
-                            <td>
-
-                                <a class="btn btn-primary w-100" href="receipt.html#${order.RefID}" target="_blank">${order.RefID}</a>
+                            <td><a class="btn btn-success btn-sm"
+                               href="receipt.html#${order.RefID}"
+                                target="_blank">
+                                  <i class="fas fa-eye"></i></a>
                             </td>
+                            
                         </tr>`;
-                  // data_array.push(order.ID, order.CustomerPhone,
-                  //  order.CustomerName, order.OrderDate,
-                  //  status, order.TotalPrice, order.DeliveryAddress);
-
-                  listdata += `<div class="col-lg-4 order-${
-                    order.ID
-                  }"><div class="m-2 card ${
-                    status == "Delivered"
-                      ? "border-success"
-                      : status == "On The Way"
-                      ? "border-warning"
-                      : status == "Preparing"
-                      ? "border-primary"
-                      : status == "Cancelled"
-                      ? "border-danger"
-                      : "border-none"
-                  }">
-              <div class="card-header d-flex">
-                Order-
-                <strong class="">${order.ID}</strong>
-                <span class="ms-auto"> <strong>Status: </strong><select id="status${
-                  order.ID
-                }" onchange="changeOrderStatus(${order.ID})">
-                  <option ${
-                    status == "Pending" ? "selected" : ""
-                  } value="Pending">Pending</option>
-                  <option ${
-                    status == "Preparing" ? "selected" : ""
-                  } value="Preparing">Preparing</option>
-                  <option ${
-                    status == "On The Way" ? "selected" : ""
-                  } value="On The Way">On The Way</option>
-                  <option ${
-                    status == "Delivered" ? "selected" : ""
-                  } value="Delivered">Delivered</option>
-                  <option ${
-                    status == "Cancelled" ? "selected" : ""
-                  } value="Cancelled">Cancelled</option>
-                  </select></span>
-              </div>
-              <div class="card-body">
-                <div class="">
-                  <div>
-                    <strong>${order.CustomerName}</strong>
-                  </div>
-                  <div>${order.DeliveryAddress}</div>
-                  <div>${order.Note}</div>
-                  <!-- <div>Email: info@webz.com.pl</div> -->
-                  <div>${order.CustomerPhone}</div>
-                </div><div class="table-responsive-sm">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th>Item</th>
-                        <th>Options</th>
-
-                        <th class="right">Unit Cost</th>
-                        <th class="center">Qty</th>
-                        <th class="right">Total</th>
-                      </tr>
-                    </thead><tbody>`;
-                  //iterate through order items
-                  for (var j = 0; j < order.Items.length; j++) {
-                    var item = order.Items[j];
-                    const itemPrice =
-                      item.Price +
-                      item.Choices.reduce(function (acc, cur) {
-                        return acc + cur.OptionPrice;
-                      }, 0);
-                    listdata += `
-                      <tr>
-                        <td class="left strong">${item.Name}</td>
-                        <td class="left">${item.Choices.reduce(
-                          //get OptionNames
-                          function (acc, cur) {
-                            return acc + cur.OptionName + ", ";
-                          },
-                          ""
-                        )}</td>
-
-                        <td class="right">${
-                          //get price
-                          itemPrice
-                        }</td>
-                        <td class="center">${item.Quantity}</td>
-                        <td class="right">${
-                          //total price
-                          itemPrice * item.Quantity
-                        }</td>
-                      </tr>`;
-                  }
-
-                  listdata += `
-                    </tbody>
-                  </table>
-                </div>
-                <div class="row">
-                  <div class="col-lg-4 col-sm-5"></div>
-
-                  <div class="col-lg-4 col-sm-5 ml-auto">
-                    <table class="table table-clear">
-                      <tbody>
-                        <tr>
-                          <td class="left">
-                            <strong>Subtotal</strong>
-                          </td>
-                          <td class="right">${
-                            order.DiscountedAmount + " PKR"
-                          }</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </div>`;
-                  // var orderDiv = document.createElement("div");
-                  // orderDiv.className = "order";
-                  // //show order in bootstrap card
-                  // var card = document.createElement("div");
-                  // card.className = "card";
-                  // var cardBody = document.createElement("div");
-                  // cardBody.className = "card-body";
-                  // card.appendChild(cardBody);
-                  // var cardTitle = document.createElement("h5");
-                  // cardTitle.className = "card-title";
-                  // cardTitle.innerHTML = order.ID;
-                  // cardBody.appendChild(cardTitle);
-                  // var cardText = document.createElement("p");
-                  // cardText.className = "card-text";
-                  // cardText.innerHTML = order.CustomerName;
-                  // cardBody.appendChild(cardText);
-                  // var cardText2 = document.createElement("p");
-                  // cardText2.className = "card-text";
-                  // cardText2.innerHTML = order.CustomerPhones;
-                  // cardBody.appendChild(cardText2);
-
-                  // orders.appendChild(card);
-                }
-                // orders.innerHTML = listdata;
+                      } 
+               
                 document.getElementById("table-orders").innerHTML = data_table;
               });
           }
@@ -585,6 +536,34 @@
       );
 
       loadCartItems();
+    }
+    function selectOutlet(orderID, value){
+
+        confirmation("Selecting "+Outlets[value].Name, "Are you sure?", () => {
+            fetch("https://black-cottage.herokuapp.com/api/orders/SelectOrderOutlet", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+                  Authorization: localStorage.getItem("token"),
+                },
+                body: `OrderID=${orderID}&Outlet=${value}`,
+            })
+            .then(function (response) {
+                console.log(response);
+                if (response.status !== 200) {
+                    response.text().then((res) => console.log(res));
+                    return;
+                }
+                return response.json();
+            })
+            .then(function (data) {
+              //change branch to the selected one
+              document.getElementById("outlet-"+orderID).innerHTML = `<span class="text-white fw-bold  rounded py-1 ps-3 pe-4" style="background: #${Outlets[value].Color}">${Outlets[value].Name}</span>`;
+
+            });
+      }, () => {
+          // console.log("no");
+        }); 
     }
     function changeOrderStatus(orderID) {
       var status = document.getElementById("status" + orderID).value;
@@ -611,11 +590,11 @@
         } else {
           //change order status in table
           var status_DOM = document.getElementById("status-" + orderID);
-          status_DOM.innerHTML = `${status=='Cancelled'? "Cancelled":
-                              status=='Delivered' ? 'Delivered':
+          status_DOM.innerHTML = `${
+                              status=='Cancelled' ? '<span class="bg-danger text-white fw-bold  rounded py-1 ps-3 pe-4">Cancelled</span>':
+                              status=='Delivered' ? '<span class="bg-success text-white fw-bold  rounded py-1 ps-3 pe-4">Delivered</span>':
                               `<select class="${
-                              status == "Delivered" ? "bg-success" :
-                              status == "Cancelled" ? "bg-danger" :
+                              status == "Picked" ? "bg-dark" :
                               status == "On The Way" ? "bg-warning" :
                               status == "Preparing" ? "bg-primary" :
                               status == "Pending" ? "bg-secondary" :
@@ -627,6 +606,9 @@
                   <option ${
                     status == "Pending" ? "selected" : ""
                   } value="Pending">Pending</option>
+                  <option ${
+                    status == "Picked" ? "selected" : ""
+                  } value="Picked">Picked</option>
                   <option ${
                     status == "Preparing" ? "selected" : ""
                   } value="Preparing">Preparing</option>
@@ -705,7 +687,7 @@
         } else {
           response.json().then(function (data) {
             console.log(data);
-            if(count!=0 && count != data.count)
+            if(count && count != data.count)
             //show new order button
             document.getElementById("new-order-btn").style.display = "block";
             
@@ -714,7 +696,7 @@
           });
         }
       });
-    }, 30000);
+    }, 15000);
 
     function changeLimit(limit){
       //change limit parameter in url
