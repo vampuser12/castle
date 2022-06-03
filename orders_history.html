@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- meta icon -->
+    <link
+      rel="icon"
+      href="https://vampuser12.github.io/castle/images/logo/whites-castle-128.png" />
+      
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -34,7 +39,7 @@
       <div class="container-fluid">
         <a class="navbar-brand ms-5 fw-bold fs-3" href="index.html">White's Castle
           <!-- logo -->
-          <img src="https://vampuser12.github.io/castle/images/logo/whites-castle-256.png" width="48" alt="logo" class="img-fluid d-inline" />
+          <img src="https://vampuser12.github.io/castle/images/logo/whites-castle-128.png" width="48" alt="logo" class="img-fluid d-inline" />
         </a>
         <div class="d-flex">
           <a
@@ -212,7 +217,7 @@
             <thead>
                 <tr>
                     <th scope="col">Time</th>
-                    <th scope="col">RefID</th>
+                    <th scope="col">Ref#</th>
                     <th scope="col">Customer</th>
                     <th scope="col">Address</th>
                     <th scope="col">Phone</th>
@@ -254,6 +259,12 @@
               <td>
                 <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                 </td>
+                <td>
+                  <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                  </td>
+                  <td>
+                    <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                    </td>
               </tr>
                       
             </tbody>
@@ -478,7 +489,7 @@
                   data_table += `<tr>
                             <td>${order.Created.split("T")[0]+
                               " " + order.Created.split("T")[1].split(".")[0]}</td>
-                            <td>${order.RefID}</td>
+                            <td class="fw-bold font-monospace">${order.RefID}</td>
                             <td>${order.CustomerName}</td>
                             <td>${order.DeliveryAddress}</td>
                             <td>${order.CustomerPhone}</td>
